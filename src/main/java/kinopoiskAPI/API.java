@@ -1,6 +1,9 @@
 package kinopoiskAPI;
 
 import kinopoiskAPI.HTTPRequest.HTTPRequest;
+import kinopoiskAPI.JsonParser.JsonParser;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 
@@ -11,15 +14,17 @@ public class API {
         domain = "https://kinopoiskapiunofficial.tech/api/";
     }
 
-    public static String getIdOfCountriesAndGenres() throws IOException {
-        return HTTPRequest.getRequestResults(String.format("%sv2.1/films/filters", domain));
+    public static JSONObject getIdOfCountriesAndGenres() {
+        String url = String.format("%sv2.1/films/filters", domain);
+        return getRequestResult(url);
     }
 
-    public static String getInformationAboutFilmById(int filmId) throws IOException {
-        return HTTPRequest.getRequestResults(String.format("%sv2.2/films/%d/", domain, filmId));
+    public static JSONObject getInformationAboutFilmById(int filmId) {
+        String url = String.format("%sv2.2/films/%d/", domain, filmId);
+        return getRequestResult(url);
     }
 
-    public static String getInformationAboutFilmsByFilter(Filter filter) throws IOException {
+    public static JSONObject getInformationAboutFilmsByFilter(Filter filter) {
         StringBuilder filtersInRequest = new StringBuilder("?");
         for (var country :
                 filter.countries())
@@ -36,6 +41,28 @@ public class API {
                 filter.yearFrom(),
                 filter.yearTo(),
                 filter.page()));
-        return HTTPRequest.getRequestResults(String.format("%sv2.1/films/search-by-filters?%s", domain, filtersInRequest));
+        String url = String.format("%sv2.1/films/search-by-filters?%s", domain, filtersInRequest);
+        return getRequestResult(url);
+    }
+
+    private static JSONObject getRequestResult(String url) {
+        String result;
+        try {
+            result = HTTPRequest.request(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        if (result == null) return null;
+        return getJsonObjectFromString(result);
+    }
+
+    private static JSONObject getJsonObjectFromString(String result) {
+        try {
+            return JsonParser.Parse(result);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

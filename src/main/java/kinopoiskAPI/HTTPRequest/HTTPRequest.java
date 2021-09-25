@@ -18,7 +18,7 @@ public class HTTPRequest {
         headers.put("X-API-KEY", TokenReader.ReadToken());
     }
 
-    public static String getRequestResults(String url) throws IOException {
+    public static String request(String url) throws IOException {
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
         for (var header :
                 headers.entrySet())
