@@ -38,3 +38,6 @@ out/
 *.iml
 *.ipr
 *.iws
+
+# Token for kinopoiskAPI
+src/kinopoiskAPI/HTTPRequest/TokenReader/token
