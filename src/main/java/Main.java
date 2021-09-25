@@ -1,5 +1,7 @@
 import kinopoiskAPI.API;
 import kinopoiskAPI.Filter;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 

@@ -6,7 +6,7 @@ public class TokenReader {
     private static final String pathToToken;
 
     static {
-        pathToToken = "src//kinopoiskAPI//HTTPRequest//TokenReader//token";
+        pathToToken = "src/main/java/kinopoiskAPI/HTTPRequest/TokenReader/token";
     }
 
     public static String ReadToken() {
@@ -18,7 +18,7 @@ public class TokenReader {
                             The token was not found
                             The token can be obtained on the website https://kinopoiskapiunofficial.tech/
                             Copy the obtained token to a file 'token', then place this file in the
-                            src/kinopoiskAPI/HttpRequest/TokenReader/token directory""");
+                            src/main/java/kinopoiskAPI/HTTPRequest/TokenReader/ directory""");
             System.exit(1);
         } catch (IOException e) {
             System.out.println("The token could not be read");
