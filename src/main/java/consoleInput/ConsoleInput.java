@@ -1,6 +1,8 @@
-package inputModule;
+package consoleInput;
 
 import commandHandler.CommandHandler;
+import inputModule.InputModule;
+import inputModule.Lexeme;
 
 import java.util.Scanner;
 

@@ -1,6 +1,6 @@
 import commandHandler.CommandHandler;
-import inputModule.ConsoleInput;
-import outputModule.ConsoleOutput;
+import consoleInput.ConsoleInput;
+import consoleOutput.ConsoleOutput;
 import tokenizer.Tokenizer;
 
 public class Main {

@@ -1,4 +1,6 @@
-package outputModule;
+package consoleOutput;
+
+import outputModule.OutputModule;
 
 public class ConsoleOutput implements OutputModule {
 
