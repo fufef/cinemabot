@@ -20,7 +20,7 @@ public class Tokenizer {
 
     private String[] parseLexeme(String lexeme) {
         return lexeme
-                .replace("\r", "")
+                .replace("\n", "")
                 .replace("\r", "")
                 .split(" ");
     }

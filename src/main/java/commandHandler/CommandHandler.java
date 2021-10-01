@@ -4,20 +4,24 @@ import outputModule.OutputModule;
 import tokenizer.Token;
 import tokenizer.Tokenizer;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 
 public class CommandHandler {
     private final Tokenizer tokenizer;
-    private static OutputModule outputModule;
-    private final Map<String, Consumer<Token>> commands;
+    private final OutputModule outputModule;
+    private final Map<String, Method> commands;
+    private final CommandListener commandListener;
 
     public CommandHandler(Tokenizer tokenizer, OutputModule outputModule) {
         this.tokenizer = tokenizer;
-        CommandHandler.outputModule = outputModule;
-        commands = getCommands();
+        this.outputModule = outputModule;
+        commandListener = new CommandListener();
+        commands = new HashMap<>();
+        registerCommands();
         handle();
     }
 
@@ -38,23 +42,26 @@ public class CommandHandler {
                 .toList()
                 .subList(1, tokenCommands.length)
                 .toArray(String[]::new);
-        Consumer<Token> command;
+        Method command;
         command = commands.get(firstCommand);
         if (command == null) {
             outputModule.sendMessage(String.format("Неизвестная команда %s", firstCommand), token.userId());
             return;
         }
-        command.accept(new Token(arguments, token.userId()));
+        try {
+            var messsage = command.invoke(commandListener, new Token(arguments, token.userId()));
+            System.out.println(messsage.toString());
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
-    private Map<String, Consumer<Token>> getCommands() {
-        final Map<String, Consumer<Token>> commands;
-        commands = new HashMap<>();
-        commands.put("/help", CommandHandler::help);
-        return commands;
-    }
-
-    private static void help(Token token) {
-        outputModule.sendMessage("Типа help", token.userId());
+    private void registerCommands() {
+        for (Method method : commandListener.getClass().getDeclaredMethods()) {
+            if (method.isAnnotationPresent(Command.class)) {
+                Command cmd = method.getAnnotation(Command.class);
+                commands.put(cmd.name(), method);
+            }
+        }
     }
 }
