@@ -10,7 +10,7 @@ public class CommandListener {
             arguments = "[command]",
             description = "Выводит справку по командам")
     //TODO написать обработку аргументов
-    public String help(Token arguments) {
+    public String help(Object[] arguments) {
         StringBuilder descriptions = new StringBuilder();
         for (Method m : this.getClass().getDeclaredMethods()) {
             if (m.isAnnotationPresent(Command.class)) {

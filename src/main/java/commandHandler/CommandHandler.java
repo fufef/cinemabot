@@ -35,20 +35,15 @@ public class CommandHandler {
     }
 
     private void handle(Token token) {
-        String[] tokenCommands = token.commands();
-        String firstCommand = tokenCommands[0];
-        String[] arguments;
-        if (tokenCommands.length > 1)
-            arguments = Arrays.copyOfRange(tokenCommands, 1, tokenCommands.length);
-        else
-            arguments = new String[0];
-        Method command = commands.get(firstCommand);
-        if (command == null) {
-            outputModule.sendMessage(String.format("Неизвестная команда %s", firstCommand), token.userId());
+        String command = token.command();
+        String[] arguments = token.arguments();
+        Method methodForCommand = commands.get(command);
+        if (methodForCommand == null) {
+            outputModule.sendMessage(String.format("Неизвестная команда %s", command), token.userId());
             return;
         }
         try {
-            String message = (String) command.invoke(commandListener, new Token(arguments, token.userId()));
+            String message = (String) methodForCommand.invoke(commandListener, new Object[]{arguments});
             outputModule.sendMessage(message, token.userId());
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
