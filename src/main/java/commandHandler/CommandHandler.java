@@ -6,7 +6,6 @@ import tokenizer.Tokenizer;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,11 +34,22 @@ public class CommandHandler {
     }
 
     private void handle(Token token) {
-        String command = token.command();
+        String commandName = token.command();
         String[] arguments = token.arguments();
-        Method methodForCommand = commands.get(command);
+        Method methodForCommand = commands.get(commandName);
         if (methodForCommand == null) {
-            outputModule.sendMessage(String.format("Неизвестная команда %s", command), token.userId());
+            outputModule.sendMessage(String.format("Неизвестная команда %s", commandName), token.userId());
+            return;
+        }
+        Command command = methodForCommand.getAnnotation(Command.class);
+        if (arguments.length < command.minArgs() || arguments.length > command.maxArgs()) {
+            outputModule.sendMessage(
+                    String.format(
+                            "Команда %s принимает %d - %d аргументов",
+                            command.name(),
+                            command.minArgs(),
+                            command.maxArgs()),
+                    token.userId());
             return;
         }
         try {
