@@ -1,7 +1,7 @@
 package kinopoiskAPI;
 
-import kinopoiskAPI.HTTPRequest.HTTPRequest;
-import kinopoiskAPI.JsonParser.JsonParser;
+import kinopoiskAPI.httpRequest.HTTPRequest;
+import kinopoiskAPI.jsonParser.JsonParser;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 

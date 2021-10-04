@@ -1,4 +1,4 @@
-package kinopoiskAPI.HTTPRequest.TokenReader;
+package kinopoiskAPI.httpRequest.tokenReader;
 
 import java.io.*;
 

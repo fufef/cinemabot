@@ -1,6 +1,6 @@
-package kinopoiskAPI.HTTPRequest;
+package kinopoiskAPI.httpRequest;
 
-import kinopoiskAPI.HTTPRequest.TokenReader.TokenReader;
+import kinopoiskAPI.httpRequest.tokenReader.TokenReader;
 
 import java.io.BufferedReader;
 import java.io.IOException;

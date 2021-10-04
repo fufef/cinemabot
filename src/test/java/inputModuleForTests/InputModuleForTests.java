@@ -1,3 +1,5 @@
+package inputModuleForTests;
+
 import inputModule.InputModule;
 import inputModule.Lexeme;
 

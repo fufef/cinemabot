@@ -1,13 +1,12 @@
 package consoleInput;
 
-import commandHandler.CommandHandler;
 import inputModule.InputModule;
 import inputModule.Lexeme;
 
 import java.util.Scanner;
 
 public class ConsoleInput implements InputModule {
-    private Scanner input;
+    private final Scanner input;
 
     public ConsoleInput() {
         input = new Scanner(System.in);

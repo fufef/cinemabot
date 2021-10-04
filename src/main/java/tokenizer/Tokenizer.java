@@ -4,6 +4,7 @@ import inputModule.InputModule;
 import inputModule.Lexeme;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 public record Tokenizer(InputModule inputModule) {
 
@@ -12,6 +13,8 @@ public record Tokenizer(InputModule inputModule) {
         if (lexeme == null)
             return null;
         String[] parsedLexeme = parseLexeme(lexeme.lexeme());
+        if (parsedLexeme.length == 0)
+            return null;
         String command = parsedLexeme[0];
         String[] arguments = parsedLexeme.length > 1
                 ? Arrays.copyOfRange(parsedLexeme, 1, parsedLexeme.length)
@@ -23,10 +26,12 @@ public record Tokenizer(InputModule inputModule) {
     }
 
     private String[] parseLexeme(String lexeme) {
-        return lexeme
-                .toLowerCase()
-                .replace("\n", "")
-                .replace("\r", "")
-                .split(" ");
+        Stream<String> parsedLexeme = Arrays.stream(lexeme
+                        .toLowerCase()
+                        .replace("\n", "")
+                        .replace("\r", "")
+                        .split(" "))
+                .filter(s -> !s.equals("") && !s.equals(" "));
+        return parsedLexeme.toArray(String[]::new);
     }
 }
