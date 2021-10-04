@@ -5,12 +5,7 @@ import inputModule.Lexeme;
 
 import java.util.Arrays;
 
-public class Tokenizer {
-    private final InputModule inputModule;
-
-    public Tokenizer(InputModule inputModule) {
-        this.inputModule = inputModule;
-    }
+public record Tokenizer(InputModule inputModule) {
 
     public Token getNextToken() {
         Lexeme lexeme = inputModule.getNextLexeme();

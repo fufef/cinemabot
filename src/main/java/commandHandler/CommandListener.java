@@ -1,6 +1,4 @@
-package commandHandler.commandListener;
-
-import commandHandler.Command;
+package commandHandler;
 
 import java.lang.reflect.Method;
 
