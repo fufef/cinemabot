@@ -1,7 +1,7 @@
 package tokenizerTests;
 
 import inputModuleForTests.InputModuleForTests;
-import inputModule.Lexeme;
+import dataIO.inputModule.Lexeme;
 import org.junit.Assert;
 import org.junit.Test;
 import tokenizer.Token;

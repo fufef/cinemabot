@@ -1,7 +1,7 @@
-package consoleInput;
+package dataIO.consoleInput;
 
-import inputModule.InputModule;
-import inputModule.Lexeme;
+import dataIO.inputModule.InputModule;
+import dataIO.inputModule.Lexeme;
 
 import java.util.Scanner;
 

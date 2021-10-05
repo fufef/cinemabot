@@ -1,7 +1,7 @@
 package inputModuleForTests;
 
-import inputModule.InputModule;
-import inputModule.Lexeme;
+import dataIO.inputModule.InputModule;
+import dataIO.inputModule.Lexeme;
 
 import java.util.List;
 import java.util.ListIterator;

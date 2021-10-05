@@ -1,7 +1,7 @@
 package tokenizer;
 
-import inputModule.InputModule;
-import inputModule.Lexeme;
+import dataIO.inputModule.InputModule;
+import dataIO.inputModule.Lexeme;
 
 import java.util.Arrays;
 import java.util.stream.Stream;

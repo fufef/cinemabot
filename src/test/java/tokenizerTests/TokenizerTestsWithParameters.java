@@ -1,6 +1,6 @@
 package tokenizerTests;
 
-import inputModule.Lexeme;
+import dataIO.inputModule.Lexeme;
 import inputModuleForTests.InputModuleForTests;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +21,7 @@ public class TokenizerTestsWithParameters {
     private static final Tokenizer tokenizer;
 
     static {
-        inputModule = new InputModuleForTests(new ArrayList<>());
+        inputModule = new InputModuleForTests(new ArrayList<>()); // Mock
         tokenizer = new Tokenizer(inputModule);
     }
 
@@ -31,13 +31,16 @@ public class TokenizerTestsWithParameters {
     }
 
     @Test
-    public void test() {
+    public void test() { // AAA
+        // Arange
         ArrayList<Lexeme> lexemes = new ArrayList<>();
         lexemes.add(currentLexeme);
         inputModule.setNewLexemes(lexemes);
 
+        //Act
         Token actualToken = tokenizer.getNextToken();
 
+        //Asserts
         TokenizerTests.areExpectedTokenAndActualTokenEqual(currentExpectedToken, actualToken);
     }
 

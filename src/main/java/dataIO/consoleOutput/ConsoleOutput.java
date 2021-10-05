@@ -1,6 +1,6 @@
-package consoleOutput;
+package dataIO.consoleOutput;
 
-import outputModule.OutputModule;
+import dataIO.outputModule.OutputModule;
 
 public class ConsoleOutput implements OutputModule {
 

@@ -2,6 +2,9 @@ package commandHandler;
 
 import java.lang.reflect.Method;
 
+// ICommand { }
+// DI Container
+
 public class CommandListener {
     @Command(
             name = "/help",
