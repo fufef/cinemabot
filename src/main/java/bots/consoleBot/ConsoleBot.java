@@ -1,6 +1,6 @@
 package bots.consoleBot;
 
-import commandHandler.BotLogic;
+import botLogic.BotLogic;
 import dataIO.consoleInput.ConsoleInput;
 import dataIO.consoleOutput.ConsoleOutput;
 import dataIO.outputModule.OutputModule;

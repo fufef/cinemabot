@@ -1,23 +1,21 @@
-package commandHandler;
+package botLogic;
 
 import kinopoiskAPI.Filter;
 import org.json.simple.JSONObject;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.List;
 
 import static java.lang.Integer.parseInt;
 import static kinopoiskAPI.API.getInformationAboutFilmsByFilter;
 
-// ICommand { }
+// TODO ICommand { }
 // DI Container
 
 public class CommandListener {
-    //сделать что-то с page. например выбирать ее рандомно:
-    Filter filter = new Filter(null, null, null,null, 0, 10, 1800, 2045, 1);
+    //todo сделать что-то с page. например выбирать ее рандомно:
+    Filter filter = new Filter(new int[0], new int[0], "", "", 0, 10, 1800, 2045, 1);
     HashMap<String, Integer> allGenres = new HashMap<String, Integer>() {{
         put("комедия", 1);
         put("ужасы", 2);
@@ -33,7 +31,9 @@ public class CommandListener {
             name = "/help",
             arguments = "[command]",
             maxArgs = 1,
-            description = "Выводит справку по командам")
+            description = """
+                    Выводит краткую информацию о боте, список команд и их описание.
+                    Если указан аргумент [command], выводит справку по указанной команде.""")
     public String help(Object[] arguments) {
         if (arguments.length > 0)
             return helpForCommand(pullOutArguments(arguments)[0]);
@@ -41,77 +41,102 @@ public class CommandListener {
     }
 
     @Command(
-            name = "/next",
-            arguments = "[command]",
+            name = "/advise",
+            arguments = "",
             maxArgs = 0,
-            description = "Если в списке нет интересных для пользователя фильмов, он может попросить выдать еще подборку (список) фильмов.")
-    public String next() {
+            description = """
+                    Бот просит указать жанр и формат, после выдает список найденных им фильмов.
+                    По желанию, пользователь может уточнить запрос, указав параметры сортировки.
+                    После уточнения запроса бот формирует новые списки.""")
+    public String advise(Object[] arguments) {
         return adviseSomeFilm();
     }
 
     @Command(
-            name = "/advise",
-            arguments = "[command]",
-            maxArgs = 0,
-            description = "Бот просит указать жанр и формат, после выдает список найденных им фильмов. По желанию, пользователь может уточнить запрос, указав параметры сортировки. После уточнения запроса бот формирует новые списки.")
-    public String advise() {
-        return adviseSomeFilm();
+            name = "/name",
+            arguments = "'название фильма'",
+            maxArgs = 1,
+            description = """
+                    Выводит краткую информацию о боте, список команд и их описание.
+                    Вызов команды без указания имени фильма сбрасывает фильтр по имени."""
+    )
+    public void name(Object[] arguments) {
     }
 
     @Command(
             name = "/genre",
-            arguments = "[command]",
-            description = "Сортировка по жанру/жанрам фильма. Если бот встречает неизвестные ему жанры, он уведомляет об этом пользователя, предлагая справку по поддерживаемым жанрам")
+            arguments = "'название жанра/жанров'",
+            description = """
+                    Сортировка по жанру/жанрам фильма (жанры указываются через пробел).
+                    Вызов команды без указания жанра сбрасывает фильтр по жанрам."""
+    )
     public void genre(Object[] arguments) {
         setGenreFilter(arguments);
     }
 
     @Command(
-            name = "/format",
-            arguments = "[command]",
+            name = "/type",
+            arguments = "serial | film",
             maxArgs = 1,
-            description = "Выбор формата: serial или film")
-    public void format(Object argument) {
+            description = """ 
+                        /type serial : искать только сериалы
+                        /type film : искать только фильмы
+                    Вызов команды без указания типа контента сбрасывает фильтр по типу.""")
+    public void type(Object argument) {
         setFormatFilter(argument);
     }
 
     @Command(
             name = "/rating",
-            arguments = "[command]",
-            maxArgs = 1,
-            description = "Сортировка по рейтингу фильма")
+            arguments = "r | r r | >r | <r",
+            maxArgs = 2,
+            description = """
+                    Сортировка по рейтингу фильмов.
+                        /rating r : поиск фильмов с указанным рейтингом
+                        /rating r-r : поиск фильмов с рейтингом в указанном диапазоне
+                        /rating >r : поиск фильмов с рейтингом выше указанного
+                        /rating <r : поиск фильмов с рейтингом ниже указанного
+                    Вызов команды без указания рейтинга сбрасывает фильтр по рейтингу.""")
     public void rating(Object argument) {
         setRatingFilter(argument);
     }
 
     @Command(
             name = "/year",
-            arguments = "[command]",
-            maxArgs = 1,
-            description = "Сортировка по году(ам) выхода фильма")
+            arguments = "y | y y | >y | <y",
+            maxArgs = 2,
+            description = """
+                    Сортировка по году(ам) выхода фильма.
+                        /year y : поиск по указанному году
+                        /year y-y : поиск по указанному временному промежутку
+                        /year >y : поиск фильмов, выпущенных позже указанного года
+                        /year <y : поиск фильмов, выпущенных ранее указанного года
+                    Вызов команды без указания года(ов) сбрасывает фильтр по году.""")
     public void year(Object argument) {
         setYearFilter(argument);
     }
 
     @Command(
             name = "/country",
-            arguments = "[command]",
-            description = "Сортировка по странам")
+            arguments = "'название страны/стран'",
+            description = """
+                    Сортировка по странам. Список стран указывается через пробел.
+                    Вызов команды без указания страны(ан) сбрасывает фильтр по странам.""")
     public void country(Object[] arguments) {
         setCountryFilter(arguments);
     }
 
-    private void setCountryFilter(Object[] arguments){
+    private void setCountryFilter(Object[] arguments) {
         //??????
         ArrayList filterCountries = new ArrayList();
-        for (Object arg: arguments) {
-            if  (allCountries.containsKey(arg))
+        for (Object arg : arguments) {
+            if (allCountries.containsKey(arg))
                 filterCountries.add(allCountries.get(arg));
         }
         filter = new Filter(filterCountries.stream().mapToInt(i -> (int) i).toArray(), filter.genres(), filter.order(), filter.type(), filter.ratingFrom(), filter.ratingTo(), filter.yearFrom(), filter.yearTo(), filter.page());
     }
 
-    private void setYearFilter(Object argument){
+    private void setYearFilter(Object argument) {
         //y | y-y | >y | <y - todo отдельный метод который бы выделял из строки нужный промежуток чисел
         if (tryParseInt(argument.toString())) {
             int year = parseInt(argument.toString());
@@ -119,7 +144,7 @@ public class CommandListener {
         }
     }
 
-    private void setRatingFilter(Object argument){
+    private void setRatingFilter(Object argument) {
         //r | r-r | >r | <r - todo отдельный метод который бы выделял из строки нужный промежуток чисел
         if (tryParseInt(argument.toString())) {
             int rate = parseInt(argument.toString());
@@ -127,16 +152,16 @@ public class CommandListener {
         }
     }
 
-    private void setFormatFilter(Object argument){
+    private void setFormatFilter(Object argument) {
         if (argument.toString().equals("serial") || argument.toString().equals("film"))
             filter = new Filter(filter.countries(), filter.genres(), filter.order(), argument.toString(), filter.ratingFrom(), filter.ratingTo(), filter.yearFrom(), filter.yearTo(), filter.page());
     }
 
-    private void setGenreFilter(Object[] arguments){
+    private void setGenreFilter(Object[] arguments) {
         //??????
         ArrayList filterGenres = new ArrayList();
-        for (Object arg: arguments) {
-            if  (allGenres.containsKey(arg))
+        for (Object arg : arguments) {
+            if (allGenres.containsKey(arg))
                 filterGenres.add(allGenres.get(arg));
         }
         filter = new Filter(filter.countries(), filterGenres.stream().mapToInt(i -> (int) i).toArray(), filter.order(), filter.type(), filter.ratingFrom(), filter.ratingTo(), filter.yearFrom(), filter.yearTo(), filter.page());
@@ -160,8 +185,8 @@ public class CommandListener {
                     continue;
                 descriptions
                         .append(command.name()).append(" ")
-                        .append(command.arguments()).append(" - ")
-                        .append(command.description());
+                        .append(command.arguments()).append("\n")
+                        .append(command.description()).append("\n");
                 break;
             }
         }
@@ -177,11 +202,11 @@ public class CommandListener {
                 Command command = method.getAnnotation(Command.class);
                 descriptions
                         .append(command.name()).append(" ")
-                        .append(command.arguments()).append(" - ")
-                        .append(command.description()).append("\n");
+                        .append(command.arguments()).append("\n")
+                        .append(command.description()).append("\n\n");
             }
         }
-        return descriptions.toString();
+        return descriptions.substring(0, descriptions.length() - 1);
     }
 
     private String[] pullOutArguments(Object[] arguments) {

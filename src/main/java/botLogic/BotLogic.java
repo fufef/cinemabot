@@ -1,4 +1,4 @@
-package commandHandler;
+package botLogic;
 
 import tokenizer.Token;
 
