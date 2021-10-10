@@ -3,9 +3,11 @@ package botLogic.commands;
 import kinopoiskAPI.Filter;
 import org.json.simple.JSONObject;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.Integer.parseInt;
 import static kinopoiskAPI.API.getInformationAboutFilmsByFilter;
@@ -36,8 +38,8 @@ public class CommandListener {
                     Если указан аргумент [command], выводит справку по указанной команде.""")
     public String help(Object[] arguments) {
         if (arguments.length > 0)
-            return helpForCommand(pullOutArguments(arguments)[0]);
-        return helpForAllCommands();
+            return HelpCommand.getHelpForCommand(getAllCommands(), pullOutArguments(arguments)[0]);
+        return HelpCommand.getHelpForAllCommands(getAllCommands());
     }
 
     @Command(
@@ -176,39 +178,6 @@ public class CommandListener {
         return filmDescription;
     }
 
-    private String helpForCommand(String commandName) {
-        StringBuilder descriptions = new StringBuilder();
-        for (Method method : this.getClass().getDeclaredMethods()) {
-            if (method.isAnnotationPresent(Command.class)) {
-                Command command = method.getAnnotation(Command.class);
-                if (!command.name().equals(commandName))
-                    continue;
-                descriptions
-                        .append(command.name()).append(" ")
-                        .append(command.arguments()).append("\n")
-                        .append(command.description()).append("\n");
-                break;
-            }
-        }
-        if (descriptions.isEmpty())
-            return String.format("Неизвестная команда %s", commandName);
-        return descriptions.toString();
-    }
-
-    private String helpForAllCommands() {
-        StringBuilder descriptions = new StringBuilder();
-        for (Method method : this.getClass().getDeclaredMethods()) {
-            if (method.isAnnotationPresent(Command.class)) {
-                Command command = method.getAnnotation(Command.class);
-                descriptions
-                        .append(command.name()).append(" ")
-                        .append(command.arguments()).append("\n")
-                        .append(command.description()).append("\n\n");
-            }
-        }
-        return descriptions.substring(0, descriptions.length() - 1);
-    }
-
     private String[] pullOutArguments(Object[] arguments) {
         return (String[]) arguments;
     }
@@ -220,5 +189,13 @@ public class CommandListener {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    private List<Command> getAllCommands() {
+        return Arrays
+                .stream(this.getClass().getDeclaredMethods())
+                .filter(m -> m.isAnnotationPresent(Command.class))
+                .map(m -> m.getAnnotation(Command.class))
+                .collect(Collectors.toList());
     }
 }
