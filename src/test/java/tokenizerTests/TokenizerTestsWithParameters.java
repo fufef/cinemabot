@@ -31,16 +31,13 @@ public class TokenizerTestsWithParameters {
     }
 
     @Test
-    public void test() { // AAA
-        // Arange
+    public void test() {
         ArrayList<Lexeme> lexemes = new ArrayList<>();
         lexemes.add(currentLexeme);
         inputModule.setNewLexemes(lexemes);
 
-        //Act
         Token actualToken = tokenizer.getNextToken();
 
-        //Asserts
         TokenizerTests.areExpectedTokenAndActualTokenEqual(currentExpectedToken, actualToken);
     }
 

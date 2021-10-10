@@ -27,20 +27,20 @@ public class API {
     public static JSONObject getInformationAboutFilmsByFilter(Filter filter) {
         StringBuilder filtersInRequest = new StringBuilder("?");
         for (var country :
-                filter.countries())
+                filter.getCountries())
             filtersInRequest.append(String.format("country=%d&", country));
         for (var genre :
-                filter.genres())
+                filter.getGenres())
             filtersInRequest.append(String.format("genre=%d&", genre));
         filtersInRequest.append(String.format(
                 "order=%s&type=%s&ratingFrom=%d&ratingTo=%d&yearFrom=%d&yearTo=%d&page=%d",
-                filter.order(),
-                filter.type(),
-                filter.ratingFrom(),
-                filter.ratingTo(),
-                filter.yearFrom(),
-                filter.yearTo(),
-                filter.page()));
+                filter.getOrder(),
+                filter.getType(),
+                filter.getRatingFrom(),
+                filter.getRatingTo(),
+                filter.getYearFrom(),
+                filter.getYearTo(),
+                filter.getPage()));
         String url = String.format("%sv2.1/films/search-by-filters?%s", domain, filtersInRequest);
         return getRequestResult(url);
     }

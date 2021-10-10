@@ -10,20 +10,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.lang.Integer.parseInt;
-import static kinopoiskAPI.API.getInformationAboutFilmsByFilter;
-
-// TODO ICommand { }
-// DI Container
+//import static kinopoiskAPI.API.getInformationAboutFilmsByFilter;
 
 public class CommandListener {
     //todo сделать что-то с page. например выбирать ее рандомно:
-    Filter filter = new Filter(new int[0], new int[0], "", "", 0, 10, 1800, 2045, 1);
-    HashMap<String, Integer> allGenres = new HashMap<String, Integer>() {{
+    Filter filter = new Filter();
+    final HashMap<String, Integer> allGenres = new HashMap<String, Integer>() {{
         put("комедия", 1);
         put("ужасы", 2);
         //todo нормально сделать
     }};
-    HashMap<String, Integer> allCountries = new HashMap<String, Integer>() {{
+    final HashMap<String, Integer> allCountries = new HashMap<String, Integer>() {{
         put("Россия", 1);
         put("Австрия", 2);
         //todo нормально сделать
@@ -130,52 +127,53 @@ public class CommandListener {
 
     private void setCountryFilter(Object[] arguments) {
         //??????
-        ArrayList filterCountries = new ArrayList();
-        for (Object arg : arguments) {
-            if (allCountries.containsKey(arg))
-                filterCountries.add(allCountries.get(arg));
-        }
-        filter = new Filter(filterCountries.stream().mapToInt(i -> (int) i).toArray(), filter.genres(), filter.order(), filter.type(), filter.ratingFrom(), filter.ratingTo(), filter.yearFrom(), filter.yearTo(), filter.page());
+//        ArrayList filterCountries = new ArrayList();
+//        for (Object arg : arguments) {
+//            if (allCountries.containsKey(arg))
+//                filterCountries.add(allCountries.get(arg));
+//        }
+//        filter = new Filter(filterCountries.stream().mapToInt(i -> (int) i).toArray(), filter.genres(), filter.order(), filter.type(), filter.ratingFrom(), filter.ratingTo(), filter.yearFrom(), filter.yearTo(), filter.page());
     }
 
     private void setYearFilter(Object argument) {
-        //y | y-y | >y | <y - todo отдельный метод который бы выделял из строки нужный промежуток чисел
-        if (tryParseInt(argument.toString())) {
-            int year = parseInt(argument.toString());
-            filter = new Filter(filter.countries(), filter.genres(), filter.order(), filter.type(), filter.ratingFrom(), filter.ratingTo(), year, year, filter.page());
-        }
+//        //y | y-y | >y | <y - todo отдельный метод который бы выделял из строки нужный промежуток чисел
+//        if (tryParseInt(argument.toString())) {
+//            int year = parseInt(argument.toString());
+//            filter = new Filter(filter.countries(), filter.genres(), filter.order(), filter.type(), filter.ratingFrom(), filter.ratingTo(), year, year, filter.page());
+//        }
     }
 
     private void setRatingFilter(Object argument) {
         //r | r-r | >r | <r - todo отдельный метод который бы выделял из строки нужный промежуток чисел
-        if (tryParseInt(argument.toString())) {
-            int rate = parseInt(argument.toString());
-            filter = new Filter(filter.countries(), filter.genres(), filter.order(), filter.type(), rate, rate, filter.yearFrom(), filter.yearTo(), filter.page());
-        }
+//        if (tryParseInt(argument.toString())) {
+//            int rate = parseInt(argument.toString());
+//            filter = new Filter(filter.countries(), filter.genres(), filter.order(), filter.type(), rate, rate, filter.yearFrom(), filter.yearTo(), filter.page());
+//        }
     }
 
     private void setFormatFilter(Object argument) {
-        if (argument.toString().equals("serial") || argument.toString().equals("film"))
-            filter = new Filter(filter.countries(), filter.genres(), filter.order(), argument.toString(), filter.ratingFrom(), filter.ratingTo(), filter.yearFrom(), filter.yearTo(), filter.page());
+//        if (argument.toString().equals("serial") || argument.toString().equals("film"))
+//            filter = new Filter(filter.countries(), filter.genres(), filter.order(), argument.toString(), filter.ratingFrom(), filter.ratingTo(), filter.yearFrom(), filter.yearTo(), filter.page());
     }
 
     private void setGenreFilter(Object[] arguments) {
         //??????
-        ArrayList filterGenres = new ArrayList();
-        for (Object arg : arguments) {
-            if (allGenres.containsKey(arg))
-                filterGenres.add(allGenres.get(arg));
-        }
-        filter = new Filter(filter.countries(), filterGenres.stream().mapToInt(i -> (int) i).toArray(), filter.order(), filter.type(), filter.ratingFrom(), filter.ratingTo(), filter.yearFrom(), filter.yearTo(), filter.page());
+//        ArrayList filterGenres = new ArrayList();
+//        for (Object arg : arguments) {
+//            if (allGenres.containsKey(arg))
+//                filterGenres.add(allGenres.get(arg));
+//        }
+//        filter = new Filter(filter.countries(), filterGenres.stream().mapToInt(i -> (int) i).toArray(), filter.order(), filter.type(), filter.ratingFrom(), filter.ratingTo(), filter.yearFrom(), filter.yearTo(), filter.page());
     }
 
     private String adviseSomeFilm() {
         //????????
-        String filmName = new String();
-        String filmDescription = new String();
-        JSONObject film = getInformationAboutFilmsByFilter(filter);
-        filmDescription = film.toString();
-        return filmDescription;
+//        String filmName = new String();
+//        String filmDescription = new String();
+//        JSONObject film = kinopoiskAPI.API.getInformationAboutFilmsByFilter(filter);
+//        filmDescription = film.toString();
+//        return filmDescription;
+        return AdviseCommand.advise();
     }
 
     private String[] pullOutArguments(Object[] arguments) {
