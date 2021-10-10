@@ -1,5 +1,7 @@
 package botLogic;
 
+import botLogic.commands.Command;
+import botLogic.commands.CommandListener;
 import tokenizer.Token;
 
 import java.lang.reflect.InvocationTargetException;

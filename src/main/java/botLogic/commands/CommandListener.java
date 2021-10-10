@@ -1,4 +1,4 @@
-package botLogic;
+package botLogic.commands;
 
 import kinopoiskAPI.Filter;
 import org.json.simple.JSONObject;
