@@ -48,7 +48,7 @@ public class CommandListener {
                     По желанию, пользователь может уточнить запрос, указав параметры сортировки.
                     После уточнения запроса бот формирует новые списки.""")
     public String advise(Object[] arguments) {
-        return adviseSomeFilm();
+        return AdviseCommand.advise();
     }
 
     @Command(
@@ -56,8 +56,8 @@ public class CommandListener {
             arguments = "'название фильма'",
             maxArgs = 1,
             description = """
-                    Выводит краткую информацию о боте, список команд и их описание.
-                    Вызов команды без указания имени фильма сбрасывает фильтр по имени."""
+                    Бот будет искать фильмы с похожим названием.
+                    Вызов команды без указания имени фильма сбрасывает фильтр по имени"""
     )
     public void name(Object[] arguments) {
     }
@@ -164,16 +164,6 @@ public class CommandListener {
 //                filterGenres.add(allGenres.get(arg));
 //        }
 //        filter = new Filter(filter.countries(), filterGenres.stream().mapToInt(i -> (int) i).toArray(), filter.order(), filter.type(), filter.ratingFrom(), filter.ratingTo(), filter.yearFrom(), filter.yearTo(), filter.page());
-    }
-
-    private String adviseSomeFilm() {
-        //????????
-//        String filmName = new String();
-//        String filmDescription = new String();
-//        JSONObject film = kinopoiskAPI.API.getInformationAboutFilmsByFilter(filter);
-//        filmDescription = film.toString();
-//        return filmDescription;
-        return AdviseCommand.advise();
     }
 
     private String[] pullOutArguments(Object[] arguments) {
