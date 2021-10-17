@@ -1,9 +1,7 @@
 package database;
 
-import java.io.IOException;
-
 public interface Database {
-    void uploadUserData(String userId, UserParameters userParameters) throws IOException;
+    void uploadUserData(String userId, UserParameters userParameters);
 
     UserParameters downloadUserData(String userId);
 }

@@ -24,8 +24,7 @@ public class ConsoleBot {
             while (token == null)
                 token = tokenizer.getNextToken();
             String message = botLogic.handle(token);
-            if (message != null)
-                outputModule.sendMessage(message, token.userId());
+            outputModule.sendMessage(message, token.userId());
         }
     }
 }

@@ -98,8 +98,7 @@ public class JSONDatabase implements Database {
             return new UserParameters(
                     (JsonObject) jsonObject.get("searchResult"),
                     parseJsonObjectToFilter((JsonObject) jsonObject.get("filter")),
-                    (int) jsonObject.get("numberOfCurrentFilm"),
-                    (int) jsonObject.get("numberOfCurrentPage"));
+                    (int) jsonObject.get("numberOfCurrentFilm"));
         } catch (Exception e) {
             e.printStackTrace();
             return null;

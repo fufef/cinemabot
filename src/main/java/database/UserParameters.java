@@ -9,18 +9,12 @@ public class UserParameters {
     private Filter filter;
     private int numberOfCurrentFilm;
     private int countOfFilmsOnCurrentPage;
-    private int numberOfCurrentPage;
     private int pagesCount;
 
-    public UserParameters(
-            JsonObject searchResult,
-            Filter filter,
-            int numberOfCurrentFilm,
-            int numberOfCurrentPage) throws Exception {
+    public UserParameters(JsonObject searchResult, Filter filter, int numberOfCurrentFilm) throws Exception {
         setSearchResult(searchResult);
         setFilter(filter);
         setPagesCount(getPageCount(searchResult));
-        setNumberOfCurrentPage(numberOfCurrentPage);
         setCountOfFilmsOnCurrentPage(getCountOfFilmsOnCurrentPage(searchResult));
         setNumberOfCurrentFilm(numberOfCurrentFilm);
     }
@@ -54,13 +48,7 @@ public class UserParameters {
     }
 
     public int getNumberOfCurrentPage() {
-        return numberOfCurrentPage;
-    }
-
-    public void setNumberOfCurrentPage(int numberOfCurrentPage) throws Exception {
-        if (numberOfCurrentPage < 0 || numberOfCurrentPage > pagesCount)
-            throw new Exception(); // TODO описание ошибки
-        this.numberOfCurrentPage = numberOfCurrentPage;
+        return filter.getPage();
     }
 
     public int getPagesCount() {

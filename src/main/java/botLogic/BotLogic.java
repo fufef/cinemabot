@@ -23,9 +23,8 @@ public class BotLogic {
         String commandName = token.command();
         String[] arguments = token.arguments();
         Method methodForCommand = commands.get(commandName);
-        if (methodForCommand == null) {
+        if (methodForCommand == null)
             return String.format("Неизвестная команда %s", commandName);
-        }
         Command command = methodForCommand.getAnnotation(Command.class);
         if (arguments.length < command.minArgs() || arguments.length > command.maxArgs()) {
             return String.format(
@@ -34,8 +33,16 @@ public class BotLogic {
                     command.minArgs(),
                     command.maxArgs());
         }
+        String result = getResultOfCommandExecution(token, methodForCommand);
+        if (result == null)
+            return String.format("Ошибка в процессе выполнения команды %s", commandName);
+        return result;
+    }
+
+    private String getResultOfCommandExecution(Token token, Method methodForCommand) {
         try {
-            return (String) methodForCommand.invoke(commandListener, new Object[]{arguments});
+            UserData.setUserId(token.userId());
+            return (String) methodForCommand.invoke(commandListener, new Object[]{token.arguments()});
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
             return null;
