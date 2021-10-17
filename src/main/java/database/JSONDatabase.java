@@ -12,7 +12,7 @@ public class JSONDatabase implements Database {
     private final String pathToDatabase = "src/main/java/database/database.json";
     private File database;
 
-    public JSONDatabase() throws IOException {
+    public JSONDatabase() {
         /*JSONObject userFilter = new JSONObject();
         userFilter.put("name", "Stackabuser");
         userFilter.put("age", 35);
@@ -45,7 +45,7 @@ public class JSONDatabase implements Database {
         parametersAsJSON.put("countOfFilmsOnCurrentPage", parameters.getCountOfFilmsOnCurrentPage());
         parametersAsJSON.put("numberOfCurrentPage", parameters.getNumberOfCurrentPage());
         parametersAsJSON.put("pagesCount", parameters.getPagesCount());
-
+        parametersAsJSON.put("filter", new JSONObject(parameters.getFilter()));
         return parametersAsJSON;
     }
 }
