@@ -1,7 +1,6 @@
 package botLogic.commands;
 
 import kinopoiskAPI.Filter;
-import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;

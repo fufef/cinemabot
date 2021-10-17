@@ -3,8 +3,8 @@ package kinopoiskAPI;
 public class Filter {
     private int[] countries;
     private int[] genres;
-    private String order;
-    private String type;
+    private String order = "";
+    private String type = "";
     private int ratingFrom;
     private int ratingTo;
     private int yearFrom;
@@ -14,8 +14,6 @@ public class Filter {
     public Filter() {
         countries = new int[0];
         genres = new int[0];
-        order = "";
-        type = "";
         ratingFrom = 0;
         ratingTo = 10;
         yearFrom = 0;

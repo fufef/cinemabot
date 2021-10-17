@@ -2,10 +2,10 @@ package kinopoiskAPI;
 
 import kinopoiskAPI.httpRequest.HTTPRequest;
 import kinopoiskAPI.jsonParser.JsonParser;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 public class API {
     private static final String domain;
@@ -19,7 +19,7 @@ public class API {
         return getRequestResult(url);
     }
 
-    public static JSONObject getInformationAboutFilmById(int filmId) {
+    public static JSONObject getInformationAboutFilmById(long filmId) {
         String url = String.format("%sv2.2/films/%d/", domain, filmId);
         return getRequestResult(url);
     }
