@@ -1,8 +1,8 @@
 package botLogic.commands;
 
+import com.github.cliftonlabs.json_simple.JsonArray;
+import com.github.cliftonlabs.json_simple.JsonObject;
 import kinopoiskAPI.Filter;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 public class AdviseCommand {
     private static final Filter filter;
@@ -20,11 +20,11 @@ public class AdviseCommand {
                 kinopoiskAPI.API.getInformationAboutFilmsByFilter(filter));
     }
 
-    private static String generateResponseFrom(JSONObject descriptionOfFilm) {
-        JSONArray films = (JSONArray) descriptionOfFilm.get("films");
-        JSONObject film = (JSONObject) films.get(0);
+    private static String generateResponseFrom(JsonObject descriptionOfFilm) {
+        JsonArray films = (JsonArray) descriptionOfFilm.get("films");
+        JsonObject film = (JsonObject) films.get(0);
         long filmId = ((Number) film.get("filmId")).longValue();
-        JSONObject fullInfoAboutFilm = kinopoiskAPI.API.getInformationAboutFilmById(filmId);
+        JsonObject fullInfoAboutFilm = kinopoiskAPI.API.getInformationAboutFilmById(filmId);
         return String.format("Название фильма: %s\n", fullInfoAboutFilm.get("nameRu")) +
                 String.format("Год выхода: %d\n", ((Number) fullInfoAboutFilm.get("year")).longValue()) +
 //                String.format("Рейтинг IMDB: %f\n", (double) fullInfoAboutFilm.get("ratingImdb")) +

@@ -1,8 +1,8 @@
 package kinopoiskAPI;
 
+import com.github.cliftonlabs.json_simple.JsonObject;
 import kinopoiskAPI.httpRequest.HTTPRequest;
 import kinopoiskAPI.jsonParser.JsonParser;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -14,17 +14,17 @@ public class API {
         domain = "https://kinopoiskapiunofficial.tech/api/";
     }
 
-    public static JSONObject getIdOfCountriesAndGenres() {
+    public static JsonObject getIdOfCountriesAndGenres() {
         String url = String.format("%sv2.1/films/filters", domain);
         return getRequestResult(url);
     }
 
-    public static JSONObject getInformationAboutFilmById(long filmId) {
+    public static JsonObject getInformationAboutFilmById(long filmId) {
         String url = String.format("%sv2.2/films/%d/", domain, filmId);
         return getRequestResult(url);
     }
 
-    public static JSONObject getInformationAboutFilmsByFilter(Filter filter) {
+    public static JsonObject getInformationAboutFilmsByFilter(Filter filter) {
         StringBuilder filtersInRequest = new StringBuilder("?");
         for (var country :
                 filter.getCountries())
@@ -45,7 +45,7 @@ public class API {
         return getRequestResult(url);
     }
 
-    private static JSONObject getRequestResult(String url) {
+    private static JsonObject getRequestResult(String url) {
         String result;
         try {
             result = HTTPRequest.request(url);
@@ -57,7 +57,7 @@ public class API {
         return getJsonObjectFromString(result);
     }
 
-    private static JSONObject getJsonObjectFromString(String result) {
+    private static JsonObject getJsonObjectFromString(String result) {
         try {
             return JsonParser.Parse(result);
         } catch (ParseException e) {
