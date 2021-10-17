@@ -1,13 +1,29 @@
 package database;
 
+import com.github.cliftonlabs.json_simple.JsonArray;
+import com.github.cliftonlabs.json_simple.JsonObject;
 import kinopoiskAPI.Filter;
 
 public class UserParameters {
+    private JsonObject searchResult;
     private Filter filter;
     private int numberOfCurrentFilm;
     private int countOfFilmsOnCurrentPage;
     private int numberOfCurrentPage;
     private int pagesCount;
+
+    public UserParameters(
+            JsonObject searchResult,
+            Filter filter,
+            int numberOfCurrentFilm,
+            int numberOfCurrentPage) throws Exception {
+        setSearchResult(searchResult);
+        setFilter(filter);
+        setPagesCount(getPageCount(searchResult));
+        setNumberOfCurrentPage(numberOfCurrentPage);
+        setCountOfFilmsOnCurrentPage(getCountOfFilmsOnCurrentPage(searchResult));
+        setNumberOfCurrentFilm(numberOfCurrentFilm);
+    }
 
     public Filter getFilter() {
         return filter;
@@ -21,7 +37,9 @@ public class UserParameters {
         return numberOfCurrentFilm;
     }
 
-    public void setNumberOfCurrentFilm(int numberOfCurrentFilm) {
+    public void setNumberOfCurrentFilm(int numberOfCurrentFilm) throws Exception {
+        if (numberOfCurrentFilm < 0 || numberOfCurrentFilm > countOfFilmsOnCurrentPage)
+            throw new Exception(); //TODO описание ошибки
         this.numberOfCurrentFilm = numberOfCurrentFilm;
     }
 
@@ -29,7 +47,9 @@ public class UserParameters {
         return countOfFilmsOnCurrentPage;
     }
 
-    public void setCountOfFilmsOnCurrentPage(int countOfFilmsOnCurrentPage) {
+    public void setCountOfFilmsOnCurrentPage(int countOfFilmsOnCurrentPage) throws Exception {
+        if (countOfFilmsOnCurrentPage < 0)
+            throw new Exception(); //TODO описание ошибки
         this.countOfFilmsOnCurrentPage = countOfFilmsOnCurrentPage;
     }
 
@@ -37,7 +57,9 @@ public class UserParameters {
         return numberOfCurrentPage;
     }
 
-    public void setNumberOfCurrentPage(int numberOfCurrentPage) {
+    public void setNumberOfCurrentPage(int numberOfCurrentPage) throws Exception {
+        if (numberOfCurrentPage < 0 || numberOfCurrentPage > pagesCount)
+            throw new Exception(); // TODO описание ошибки
         this.numberOfCurrentPage = numberOfCurrentPage;
     }
 
@@ -45,20 +67,31 @@ public class UserParameters {
         return pagesCount;
     }
 
-    public void setPagesCount(int pagesCount) {
+    public void setPagesCount(int pagesCount) throws Exception {
+        if (pagesCount < 0)
+            throw new Exception(); //TODO описание ошибки
         this.pagesCount = pagesCount;
     }
 
-    public UserParameters(
-            Filter filter,
-            int numberOfCurrentFilm,
-            int countOfFilmsOnCurrentPage,
-            int numberOfCurrentPage,
-            int pagesCount) {
-        this.filter = filter;
-        this.numberOfCurrentFilm = numberOfCurrentFilm;
-        this.countOfFilmsOnCurrentPage = countOfFilmsOnCurrentPage;
-        this.numberOfCurrentPage = numberOfCurrentPage;
-        this.pagesCount = pagesCount;
+    public JsonObject getSearchResult() {
+        return searchResult;
+    }
+
+    public void setSearchResult(JsonObject searchResult) {
+        this.searchResult = searchResult;
+    }
+
+    private int getPageCount(JsonObject searchResult) {
+        var count = searchResult.get("pagesCount");
+        if (count == null)
+            return 0;
+        return (int) count;
+    }
+
+    private int getCountOfFilmsOnCurrentPage(JsonObject searchResult) {
+        var films = searchResult.get("films");
+        if (films == null)
+            return 0;
+        return ((JsonArray) films).size();
     }
 }

@@ -62,7 +62,7 @@ public class API {
             return JsonParser.Parse(result);
         } catch (ParseException e) {
             e.printStackTrace();
+            return new JsonObject();
         }
-        return null;
     }
 }
