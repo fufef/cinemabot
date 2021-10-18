@@ -5,6 +5,8 @@ import com.github.cliftonlabs.json_simple.JsonObject;
 import database.UserParameters;
 import kinopoiskAPI.Filter;
 
+import static parser.Parser.parseToInt;
+
 public class Parser {
     public static JsonObject parseUserParametersToJsonObject(UserParameters parameters) {
         JsonObject parametersAsJson = new JsonObject();
@@ -74,9 +76,5 @@ public class Parser {
                 result[i] = parseToInt(jsonArray.get(i));
         }
         return result;
-    }
-
-    private static int parseToInt(Object number) {
-        return ((Number) number).intValue();
     }
 }

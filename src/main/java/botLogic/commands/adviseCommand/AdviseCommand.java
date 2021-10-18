@@ -1,9 +1,10 @@
-package botLogic.commands;
+package botLogic.commands.adviseCommand;
 
 import botLogic.Database;
 import botLogic.UserData;
 import com.github.cliftonlabs.json_simple.JsonObject;
 import database.UserParameters;
+import parser.Parser;
 import kinopoiskAPI.Filter;
 
 public class AdviseCommand {
@@ -20,17 +21,17 @@ public class AdviseCommand {
         if (userParameters.getNumberOfCurrentFilm() > userParameters.getCountOfFilmsOnCurrentPage()) {
             if (userParameters.getNumberOfCurrentPage() >= userParameters.getPagesCount()) {
                 resetSearch(userParameters);
-                return "Предложены все возможные варианты при заданных параметрах поиска.\n" +
-                        "При повторном вызове команды будут рекомендоваться уже предлагавшиеся фильмы.";
+                return "Предложены все возможные варианты при заданных параметрах поиска\n" +
+                        "При повторном вызове команды будут рекомендоваться уже предлагавшиеся фильмы";
             }
             goToNextPage(userParameters);
             userParameters = Database.database.downloadUserData(UserData.getUserId());
         }
-        // Тут мы получаем СПИСОК ФИЛЬМОВ
-        // И мы должны из этого списка выбрать элемент с номером userParameters.getNumberOfCurrentFilm()
-        var film = userParameters.getCurrentFilm();
-
-        return film.toString();
+        JsonObject film = userParameters.getCurrentFilm();
+        userParameters.nextFilm();
+        Database.database.uploadUserData(UserData.getUserId(), userParameters);
+        return Formatter.getInformationAboutFilm(
+                Parser.parseToInt(film.get("filmId")));
     }
 
     private static void goToNextPage(UserParameters userParameters) throws Exception {
@@ -51,7 +52,7 @@ public class AdviseCommand {
 
     private static void updateSearchResultInDatabase(Filter filter) throws Exception {
         JsonObject searchResult = kinopoiskAPI.API.getInformationAboutFilmsByFilter(filter);
-        UserParameters newUserParameters = new UserParameters(searchResult, filter, 1);
-        Database.database.uploadUserData(UserData.getUserId(), newUserParameters);
+        UserParameters userParameters = new UserParameters(searchResult, filter, 1);
+        Database.database.uploadUserData(UserData.getUserId(), userParameters);
     }
 }

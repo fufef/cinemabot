@@ -3,10 +3,8 @@ package kinopoiskAPI;
 import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsoner;
 import kinopoiskAPI.httpRequest.HTTPRequest;
-import kinopoiskAPI.jsonParser.JsonParser;
 
 import java.io.IOException;
-import java.text.ParseException;
 
 public class API {
     private static final String domain;
@@ -20,7 +18,7 @@ public class API {
         return getRequestResult(url);
     }
 
-    public static JsonObject getInformationAboutFilmById(long filmId) {
+    public static JsonObject getInformationAboutFilmById(int filmId) {
         String url = String.format("%sv2.2/films/%d/", domain, filmId);
         return getRequestResult(url);
     }
@@ -47,18 +45,17 @@ public class API {
     }
 
     private static JsonObject getRequestResult(String url) {
-        String result;
         try {
-            result = HTTPRequest.request(url);
+            return parseJsonObjectFromString(HTTPRequest.request(url));
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
-        if (result == null) return null;
-        return getJsonObjectFromString(result);
     }
 
-    private static JsonObject getJsonObjectFromString(String jsonObjectAsString) {
-        return Jsoner.deserialize(jsonObjectAsString, new JsonObject());
+    private static JsonObject parseJsonObjectFromString(String jsonObjectAsString) {
+        return jsonObjectAsString != null
+                ? Jsoner.deserialize(jsonObjectAsString, new JsonObject())
+                : null;
     }
 }

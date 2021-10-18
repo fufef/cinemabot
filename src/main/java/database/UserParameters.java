@@ -6,7 +6,7 @@ import kinopoiskAPI.Filter;
 
 import java.math.BigDecimal;
 
-// TODO добавить методы по типу isLastPageOpen
+// TODO добавить методы по типу isLastPageOpen, nextFilm
 public class UserParameters {
     private JsonObject searchResult;
     private Filter filter;
@@ -74,8 +74,13 @@ public class UserParameters {
 
     public JsonObject getCurrentFilm() {
         //TODO проверки!!
-        JsonArray films  = (JsonArray) this.searchResult.get("films");
+        JsonArray films = (JsonArray) this.searchResult.get("films");
         return (JsonObject) (films).get(this.numberOfCurrentFilm);
+    }
+
+    public void nextFilm() {
+        //TODO проверки, которые есть в advise
+        this.numberOfCurrentFilm++;
     }
 
     private int getPageCount(JsonObject searchResult) {

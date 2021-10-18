@@ -1,5 +1,7 @@
 package botLogic.commands;
 
+import botLogic.commands.adviseCommand.AdviseCommand;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
