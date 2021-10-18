@@ -13,10 +13,10 @@ public class Formatter {
     }
 
     private static String getInformationInFormattedForm(JsonObject information) {
-        StringBuilder result = new StringBuilder();
-        result.append(generateName(information));
-        result.append(generateRatings(information));
-        return String.valueOf(result);
+        return String.valueOf(
+                generateName(information)) +
+                generateRatings(information) +
+                generateDescription(information);
     }
 
     private static StringBuilder generateName(JsonObject information) {
@@ -34,17 +34,20 @@ public class Formatter {
     }
 
     private static StringBuilder generateRatings(JsonObject information) {
-        StringBuilder result = new StringBuilder();
-        result.append(String.format(
-                "Рейтинг: %.1f (КП), %.1f (IMDb)\n",
-                getRatingKinopoisk(information),
-                getRatingImdb(information)));
-        return result;
+        return new StringBuilder(
+                String.format(
+                        "Рейтинг: %.1f (КП), %.1f (IMDb)\n",
+                        getRatingKinopoisk(information),
+                        getRatingImdb(information)));
     }
 
     private static StringBuilder generateDescription(JsonObject information) {
-
-        return null;
+        String description = getDescription(information);
+        if (description == null || description.isEmpty())
+            description = getShortDescription(information);
+        if (description == null || description.isEmpty())
+            return new StringBuilder();
+        return new StringBuilder(String.format("ОПИСАНИЕ\n%s\n", description));
     }
 
     private static String getNameRu(JsonObject information) {
@@ -79,10 +82,6 @@ public class Formatter {
 
     private static String getShortDescription(JsonObject information) {
         return (String) information.get("shortDescription");
-    }
-
-    private static String getSlogan(JsonObject information) {
-        return (String) information.get("slogan");
     }
 //    private static String getYear(JsonObject information){}
 //    private static String getFilmLength(JsonObject information){}
