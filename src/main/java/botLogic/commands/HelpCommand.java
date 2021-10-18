@@ -10,12 +10,11 @@ public class HelpCommand {
                 command -> command.name().equals(commandName));
         if (descriptions.isEmpty())
             return String.format("Неизвестная команда %s", commandName);
-        return descriptions.substring(0, descriptions.length() - 2);
+        return descriptions;
     }
 
     public static String getHelpForAllCommands(List<Command> commands) {
-        String descriptions = getHelpForCommandsSatisfyingCondition(commands, command -> true);
-        return descriptions.substring(0, descriptions.length() - 2);
+        return getHelpForCommandsSatisfyingCondition(commands, command -> true);
     }
 
     private static String getHelpForCommandsSatisfyingCondition(List<Command> commands, Predicate<Command> condition) {
