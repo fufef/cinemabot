@@ -42,6 +42,11 @@ public class Formatter {
         return result;
     }
 
+    private static StringBuilder generateDescription(JsonObject information) {
+
+        return null;
+    }
+
     private static String getNameRu(JsonObject information) {
         return (String) information.get("nameRu");
     }
@@ -67,11 +72,20 @@ public class Formatter {
     private static String getWebUrl(JsonObject information) {
         return (String) information.get("webUrl");
     }
+
+    private static String getDescription(JsonObject information) {
+        return (String) information.get("description");
+    }
+
+    private static String getShortDescription(JsonObject information) {
+        return (String) information.get("shortDescription");
+    }
+
+    private static String getSlogan(JsonObject information) {
+        return (String) information.get("slogan");
+    }
 //    private static String getYear(JsonObject information){}
 //    private static String getFilmLength(JsonObject information){}
-//    private static String getSlogan(JsonObject information){}
-//    private static String getDescription(JsonObject information){}
-//    private static String getShortDescription(JsonObject information){}
 //    private static String getType(JsonObject information){}
 //    private static String getStartYear(JsonObject information){}
 //    private static String getEndYear(JsonObject information){}

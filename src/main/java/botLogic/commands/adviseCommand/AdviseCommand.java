@@ -18,7 +18,8 @@ public class AdviseCommand {
     }
 
     private static String getNextFilm(UserParameters userParameters) throws Exception {
-        if (userParameters.getNumberOfCurrentFilm() > userParameters.getCountOfFilmsOnCurrentPage()) {
+        JsonObject film = userParameters.getCurrentFilm();
+        if (!userParameters.nextFilm()){
             if (userParameters.getNumberOfCurrentPage() >= userParameters.getPagesCount()) {
                 resetSearch(userParameters);
                 return "Предложены все возможные варианты при заданных параметрах поиска\n" +
@@ -27,8 +28,6 @@ public class AdviseCommand {
             goToNextPage(userParameters);
             userParameters = Database.database.downloadUserData(UserData.getUserId());
         }
-        JsonObject film = userParameters.getCurrentFilm();
-        userParameters.nextFilm();
         Database.database.uploadUserData(UserData.getUserId(), userParameters);
         return Formatter.getInformationAboutFilm(
                 Parser.parseToInt(film.get("filmId")));
