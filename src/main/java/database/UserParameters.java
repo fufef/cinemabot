@@ -4,6 +4,9 @@ import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonObject;
 import kinopoiskAPI.Filter;
 
+import java.math.BigDecimal;
+
+// TODO добавить методы по типу isLastPageOpen
 public class UserParameters {
     private JsonObject searchResult;
     private Filter filter;
@@ -69,11 +72,17 @@ public class UserParameters {
         this.searchResult = searchResult;
     }
 
+    public JsonObject getCurrentFilm() {
+        //TODO проверки!!
+        JsonArray films  = (JsonArray) this.searchResult.get("films");
+        return (JsonObject) (films).get(this.numberOfCurrentFilm);
+    }
+
     private int getPageCount(JsonObject searchResult) {
-        var count = searchResult.get("pagesCount");
+        BigDecimal count = (BigDecimal) searchResult.get("pagesCount");
         if (count == null)
             return 0;
-        return (int) count;
+        return count.intValue();
     }
 
     private int getCountOfFilmsOnCurrentPage(JsonObject searchResult) {

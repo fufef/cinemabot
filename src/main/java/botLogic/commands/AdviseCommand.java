@@ -2,7 +2,6 @@ package botLogic.commands;
 
 import botLogic.Database;
 import botLogic.UserData;
-import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonObject;
 import database.UserParameters;
 import kinopoiskAPI.Filter;
@@ -10,7 +9,6 @@ import kinopoiskAPI.Filter;
 public class AdviseCommand {
     public static String advise() throws Exception {
         UserParameters userParameters = Database.database.downloadUserData(UserData.getUserId());
-        //если параметров для юзера на найдено, то он не зареган в БД, поэтому регаем его
         if (userParameters == null) {
             registerUser();
             userParameters = Database.database.downloadUserData(UserData.getUserId());
@@ -30,9 +28,9 @@ public class AdviseCommand {
         }
         // Тут мы получаем СПИСОК ФИЛЬМОВ
         // И мы должны из этого списка выбрать элемент с номером userParameters.getNumberOfCurrentFilm()
-        userParameters.getSearchResult();
+        var film = userParameters.getCurrentFilm();
 
-        return null;
+        return film.toString();
     }
 
     private static void goToNextPage(UserParameters userParameters) throws Exception {
@@ -55,16 +53,5 @@ public class AdviseCommand {
         JsonObject searchResult = kinopoiskAPI.API.getInformationAboutFilmsByFilter(filter);
         UserParameters newUserParameters = new UserParameters(searchResult, filter, 1);
         Database.database.uploadUserData(UserData.getUserId(), newUserParameters);
-    }
-
-    private static String generateResponseFrom(JsonObject descriptionOfFilm) {
-        JsonArray films = (JsonArray) descriptionOfFilm.get("films");
-        JsonObject film = (JsonObject) films.get(0);
-        long filmId = ((Number) film.get("filmId")).longValue();
-        JsonObject fullInfoAboutFilm = kinopoiskAPI.API.getInformationAboutFilmById(filmId);
-        return String.format("Название фильма: %s\n", fullInfoAboutFilm.get("nameRu")) +
-                String.format("Год выхода: %d\n", ((Number) fullInfoAboutFilm.get("year")).longValue()) +
-//                String.format("Рейтинг IMDB: %f\n", (double) fullInfoAboutFilm.get("ratingImdb")) +
-                String.format("Описание: %s\n", fullInfoAboutFilm.get("shortDescription"));
     }
 }

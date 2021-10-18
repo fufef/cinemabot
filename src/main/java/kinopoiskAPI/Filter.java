@@ -1,5 +1,6 @@
 package kinopoiskAPI;
 
+// TODO метод по типу gotToNextPage
 public class Filter {
     private int[] countries;
     private int[] genres;

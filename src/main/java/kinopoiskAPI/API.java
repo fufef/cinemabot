@@ -1,6 +1,7 @@
 package kinopoiskAPI;
 
 import com.github.cliftonlabs.json_simple.JsonObject;
+import com.github.cliftonlabs.json_simple.Jsoner;
 import kinopoiskAPI.httpRequest.HTTPRequest;
 import kinopoiskAPI.jsonParser.JsonParser;
 
@@ -57,12 +58,7 @@ public class API {
         return getJsonObjectFromString(result);
     }
 
-    private static JsonObject getJsonObjectFromString(String result) {
-        try {
-            return JsonParser.Parse(result);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return new JsonObject();
-        }
+    private static JsonObject getJsonObjectFromString(String jsonObjectAsString) {
+        return Jsoner.deserialize(jsonObjectAsString, new JsonObject());
     }
 }

@@ -5,7 +5,6 @@ import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsoner;
 import database.Database;
 import database.UserParameters;
-import kinopoiskAPI.Filter;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -24,6 +23,7 @@ public class JSONDatabase implements Database {
             try {
                 if (!this.database.createNewFile())
                     System.exit(3);
+                uploadDatabase(new JsonObject());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -33,7 +33,7 @@ public class JSONDatabase implements Database {
 
     @Override
     public void uploadUserData(String userId, UserParameters parameters) {
-        this.databaseData.put(userId, parseUserParametersToJsonObject(parameters));
+        this.databaseData.put(userId, Parser.parseUserParametersToJsonObject(parameters));
         uploadDatabase(this.databaseData);
     }
 
@@ -42,7 +42,7 @@ public class JSONDatabase implements Database {
         JsonObject userParametersAsJson = (JsonObject) this.databaseData.get(userId);
         return userParametersAsJson == null
                 ? null
-                : parseJsonObjectToUserParameters(userParametersAsJson);
+                : Parser.parseJsonObjectToUserParameters(userParametersAsJson);
     }
 
     private JsonObject downloadDatabase() {
@@ -67,55 +67,5 @@ public class JSONDatabase implements Database {
             e.printStackTrace();
             System.exit(3);
         }
-    }
-
-    private JsonObject parseUserParametersToJsonObject(UserParameters parameters) {
-        JsonObject parametersAsJson = new JsonObject();
-        parametersAsJson.put("searchResult", parameters.getSearchResult());
-        parametersAsJson.put("filter", parseFilterToJsonObject(parameters.getFilter()));
-        parametersAsJson.put("numberOfCurrentFilm", parameters.getNumberOfCurrentFilm());
-        parametersAsJson.put("numberOfCurrentPage", parameters.getNumberOfCurrentPage());
-        return parametersAsJson;
-    }
-
-    private JsonObject parseFilterToJsonObject(Filter filter) {
-        //TODO Рефлексия?
-        JsonObject filterAsJson = new JsonObject();
-        filterAsJson.put("countries", filter.getCountries());
-        filterAsJson.put("genres", filter.getGenres());
-        filterAsJson.put("order", filter.getOrder());
-        filterAsJson.put("type", filter.getType());
-        filterAsJson.put("ratingFrom", filter.getRatingFrom());
-        filterAsJson.put("ratingTo", filter.getRatingTo());
-        filterAsJson.put("yearFrom", filter.getYearFrom());
-        filterAsJson.put("yearTo", filter.getYearTo());
-        filterAsJson.put("page", filter.getPage());
-        return filterAsJson;
-    }
-
-    private UserParameters parseJsonObjectToUserParameters(JsonObject jsonObject) {
-        try {
-            return new UserParameters(
-                    (JsonObject) jsonObject.get("searchResult"),
-                    parseJsonObjectToFilter((JsonObject) jsonObject.get("filter")),
-                    (int) jsonObject.get("numberOfCurrentFilm"));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private Filter parseJsonObjectToFilter(JsonObject jsonObject) {
-        Filter filter = new Filter();
-        filter.setCountries((int[]) jsonObject.get("countries"));
-        filter.setGenres((int[]) jsonObject.get("genres"));
-        filter.setOrder((String) jsonObject.get("order"));
-        filter.setType((String) jsonObject.get("type"));
-        filter.setRatingFrom((int) jsonObject.get("ratingFrom"));
-        filter.setRatingTo((int) jsonObject.get("ratingTo"));
-        filter.setYearFrom((int) jsonObject.get("yearFrom"));
-        filter.setYearTo((int) jsonObject.get("yearTo"));
-        filter.setPage((int) jsonObject.get("page"));
-        return filter;
     }
 }
