@@ -1,7 +1,7 @@
 package database;
 
-public interface Database {
-    void uploadUserData(String userId, UserParameters userParameters);
+public interface Database { //todo  UserParametersRepository
+    void uploadUserData(String userId, UserParameters userParameters); // todo save
 
-    UserParameters downloadUserData(String userId);
+    UserParameters downloadUserData(String userId); // todo get
 }

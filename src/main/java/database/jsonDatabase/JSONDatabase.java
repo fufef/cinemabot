@@ -13,6 +13,8 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+
+// todo: многик момкнты захардкожены, будет больно хранить еще одну таблицу
 public class JSONDatabase implements Database {
     private final File database;
     private final JsonObject databaseData;

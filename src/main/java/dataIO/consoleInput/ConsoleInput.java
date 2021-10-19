@@ -16,6 +16,6 @@ public class ConsoleInput implements InputModule {
     public Lexeme getNextLexeme() {
         System.out.print(">>> ");
         String userInput = input.nextLine();
-        return new Lexeme(userInput, "defaultID");
+        return new Lexeme(userInput, "Bob");//"defaultID");
     }
 }

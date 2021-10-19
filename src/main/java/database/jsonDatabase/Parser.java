@@ -7,7 +7,7 @@ import kinopoiskAPI.Filter;
 
 import static parser.Parser.parseToInt;
 
-public class Parser {
+public class Parser { //todo JsonConverter, не парсить самим
     public static JsonObject parseUserParametersToJsonObject(UserParameters parameters) {
         JsonObject parametersAsJson = new JsonObject();
         parametersAsJson.put("searchResult", parameters.getSearchResult());

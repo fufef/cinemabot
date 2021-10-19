@@ -1,5 +1,7 @@
 package kinopoiskAPI;
 
+import java.util.Arrays;
+
 // TODO метод по типу gotToNextPage
 public class Filter {
     private int[] countries;
@@ -20,6 +22,9 @@ public class Filter {
         yearFrom = 0;
         yearTo = Integer.MAX_VALUE;
         page = 1;
+    }
+
+    public void addGenre(Integer[] genreId) {
     }
 
     public int[] getCountries() {

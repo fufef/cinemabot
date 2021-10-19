@@ -28,8 +28,7 @@ public class API {
         for (var country :
                 filter.getCountries())
             filtersInRequest.append(String.format("country=%d&", country));
-        for (var genre :
-                filter.getGenres())
+        for (var genre : filter.getGenres())
             filtersInRequest.append(String.format("genre=%d&", genre));
         filtersInRequest.append(String.format(
                 "order=%s&type=%s&ratingFrom=%d&ratingTo=%d&yearFrom=%d&yearTo=%d&page=%d",
