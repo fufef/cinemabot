@@ -1,10 +1,10 @@
-package database.jsonDatabase;
+package userParametersRepository.jsonUserParametersRepository;
 
 import com.github.cliftonlabs.json_simple.JsonException;
 import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsoner;
-import database.Database;
-import database.UserParameters;
+import userParametersRepository.UserParametersRepository;
+import userParametersRepository.UserParameters;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,13 +14,14 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 
-// todo: многик момкнты захардкожены, будет больно хранить еще одну таблицу
-public class JSONDatabase implements Database {
+// todo: многие моменты захардкожены, будет больно хранить еще одну таблицу
+public class JSONUserParametersRepository implements UserParametersRepository {
     private final File database;
     private final JsonObject databaseData;
 
-    public JSONDatabase() {
-        this.database = new File("src/main/java/database/jsonDatabase/database.json");
+    public JSONUserParametersRepository() {
+        this.database = new File(
+                "src/main/java/userParametersRepository/jsonUserParametersRepository/database.json");
         if (!this.database.exists()) {
             try {
                 if (!this.database.createNewFile())
@@ -34,13 +35,13 @@ public class JSONDatabase implements Database {
     }
 
     @Override
-    public void uploadUserData(String userId, UserParameters parameters) {
+    public void save(String userId, UserParameters parameters) {
         this.databaseData.put(userId, Parser.parseUserParametersToJsonObject(parameters));
         uploadDatabase(this.databaseData);
     }
 
     @Override
-    public UserParameters downloadUserData(String userId) {
+    public UserParameters get(String userId) {
         JsonObject userParametersAsJson = (JsonObject) this.databaseData.get(userId);
         return userParametersAsJson == null
                 ? null

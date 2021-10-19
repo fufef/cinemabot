@@ -1,8 +1,8 @@
-package database.jsonDatabase;
+package userParametersRepository.jsonUserParametersRepository;
 
 import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonObject;
-import database.UserParameters;
+import userParametersRepository.UserParameters;
 import kinopoiskAPI.Filter;
 
 import static parser.Parser.parseToInt;

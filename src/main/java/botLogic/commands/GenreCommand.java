@@ -1,15 +1,15 @@
 package botLogic.commands;
 
-import botLogic.Database;
+import botLogic.UserParametersRepository;
 import botLogic.UserData;
-import database.UserParameters;
+import userParametersRepository.UserParameters;
 import kinopoiskAPI.Filter;
 
 import java.util.ArrayList;
 
 public class GenreCommand {
     public void genre(Object[] arguments) {
-        UserParameters userParameters = Database.database.downloadUserData(UserData.getUserId());
+        UserParameters userParameters = UserParametersRepository.userParametersRepository.get(UserData.getUserId());
         Filter filter = userParameters.getFilter();
         ArrayList<Integer> addingGenres = new ArrayList<>();
         if (arguments.length == 0)
@@ -17,7 +17,7 @@ public class GenreCommand {
         else {
             for (Object arg : arguments) {
                 if (ContainsGenre(String.valueOf(arg))) {
-                   Integer genreId = 0; //todo
+                   Integer genreId = 0;
                     addingGenres.add(genreId);
                 }
             }
