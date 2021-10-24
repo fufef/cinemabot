@@ -68,7 +68,7 @@ public class CommandListener {
 
     @Command(
             name = "/rating",
-            arguments = "r | r r | >r | <r",
+            arguments = "r | r-r | >r | <r",
             maxArgs = 2,
             description = """
                     Сортировка по рейтингу фильмов.

@@ -23,6 +23,11 @@ public class API {
         return getRequestResult(url);
     }
 
+    public static JsonObject getInformationAboutFilmByKeyword(String keyword) { //todo
+        String url = String.format("%sv2.1/films/search-by-keyword?%s", domain, keyword);
+        return getRequestResult(url);
+    }
+
     public static JsonObject getInformationAboutFilmsByFilter(Filter filter) {
         StringBuilder filtersInRequest = new StringBuilder("?");
         for (var country :

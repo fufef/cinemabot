@@ -1,6 +1,8 @@
 package kinopoiskAPI;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 // TODO метод по типу gotToNextPage
 public class Filter {
@@ -24,7 +26,22 @@ public class Filter {
         page = 1;
     }
 
-    public void addGenre(Integer[] genreId) {
+    public void addGenres(ArrayList genresId) {
+        HashSet newGenresSet = new HashSet(genresId);
+        for (int i = 0; i < genres.length; i++) {
+            newGenresSet.add(genres[i]);
+        }
+        int[] newGenres = newGenresSet.stream().mapToInt(i -> (int) i).toArray();
+        setGenres(newGenres);
+    }
+
+    public void addCountries(ArrayList countriesId) {
+        HashSet newCountriesSet = new HashSet(countriesId);
+        for (int i = 0; i < countries.length; i++) {
+            newCountriesSet.add(countries[i]);
+        }
+        int[] newCountries = newCountriesSet.stream().mapToInt(i -> (int) i).toArray();
+        setGenres(newCountries);
     }
 
     public int[] getCountries() {
