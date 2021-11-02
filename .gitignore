@@ -41,3 +41,6 @@ out/
 
 # Token for kinopoiskAPI
 src/kinopoiskAPI/HTTPRequest/TokenReader/token
+
+# JSONdatabase
+src/main/java/userParametersRepository/jsonUserParametersRepository/database.json

@@ -35,17 +35,6 @@ public class CommandListener {
     }
 
     @Command(
-            name = "/name",
-            arguments = "'название фильма'",
-            maxArgs = 1,
-            description = """
-                    Бот будет искать фильмы с похожим названием
-                    Вызов команды без указания имени фильма сбрасывает фильтр по имени"""
-    )
-    public void name(Object[] arguments) {
-    }
-
-    @Command(
             name = "/genre",
             arguments = "'название жанра/жанров'",
             description = """
@@ -68,7 +57,7 @@ public class CommandListener {
 
     @Command(
             name = "/rating",
-            arguments = "r | r-r | >r | <r",
+            arguments = "r | r r | >r | <r",
             maxArgs = 2,
             description = """
                     Сортировка по рейтингу фильмов.
