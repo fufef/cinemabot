@@ -1,7 +1,7 @@
 package botLogic.commands;
 
 import botLogic.UserParametersRepository;
-import botLogic.UserData;
+import botLogic.UserId;
 import userParametersRepository.UserParameters;
 import kinopoiskAPI.Filter;
 
@@ -9,7 +9,7 @@ import static java.util.Objects.isNull;
 
 public class TypeCommand {
     public void type(Object argument) {
-        UserParameters userParameters = UserParametersRepository.userParametersRepository.get(UserData.getUserId());
+        UserParameters userParameters = UserParametersRepository.userParametersRepository.getUserData(UserId.getUserId());
         Filter filter = userParameters.getFilter();
         if (isNull(argument))
             filter.setType("");

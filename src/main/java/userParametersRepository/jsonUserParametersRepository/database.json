@@ -1,1 +1,66 @@
-{}
+{
+  "Bob": {
+    "filter": {
+      "genres": [],
+      "yearFrom": 0,
+      "ratingTo": 10,
+      "countries": [],
+      "page": 1,
+      "type": "",
+      "ratingFrom": 0,
+      "order": "",
+      "yearTo": 2147483647
+    },
+    "searchResult": {
+      "films": [
+        {
+          "nameRu": "Лорды раздевалки (видео)",
+          "ratingVoteCount": 1758,
+          "posterUrl": "https:\/\/kinopoiskapiunofficial.tech\/images\/posters\/kp\/1252447.jpg",
+          "year": "1999",
+          "genres": [
+            {
+              "genre": "для взрослых"
+            },
+            {
+              "genre": "спорт"
+            }
+          ],
+          "filmId": 1252447,
+          "rating": "9.4",
+          "posterUrlPreview": "https:\/\/kinopoiskapiunofficial.tech\/images\/posters\/kp_small\/1252447.jpg",
+          "nameEn": "Lords of the Lockerroom",
+          "countries": [
+            {
+              "country": "США"
+            }
+          ],
+          "type": "FILM"
+        },
+        {
+          "nameRu": "Космос (сериал)",
+          "ratingVoteCount": 5089,
+          "posterUrl": "https:\/\/kinopoiskapiunofficial.tech\/images\/posters\/kp\/1309325.jpg",
+          "year": "2019-...",
+          "genres": [
+            {
+              "genre": "документальный"
+            }
+          ],
+          "filmId": 1309325,
+          "rating": "9.3",
+          "posterUrlPreview": "https:\/\/kinopoiskapiunofficial.tech\/images\/posters\/kp_small\/1309325.jpg",
+          "countries": [
+            {
+              "country": "США"
+            }
+          ],
+          "type": "TV_SHOW"
+        }
+      ],
+      "pagesCount": 1
+    },
+    "numberOfCurrentFilm": 1,
+    "numberOfCurrentPage": 1
+  }
+}

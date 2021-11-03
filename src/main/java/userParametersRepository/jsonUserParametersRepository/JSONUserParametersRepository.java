@@ -14,56 +14,55 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 
-// todo: многие моменты захардкожены, будет больно хранить еще одну таблицу
+// многие моменты захардкожены, будет больно хранить еще одну таблицу
 public class JSONUserParametersRepository implements UserParametersRepository {
-    private final File database;
-    private final JsonObject databaseData;
+    private final File repository;
+    private final JsonObject repositoryData;
 
-    public JSONUserParametersRepository() {
-        this.database = new File(
-                "src/main/java/userParametersRepository/jsonUserParametersRepository/database.json");
-        if (!this.database.exists()) {
+    public JSONUserParametersRepository(String pathToRepository) {
+        this.repository = new File(pathToRepository);
+        if (!this.repository.exists()) {
             try {
-                if (!this.database.createNewFile())
+                if (!this.repository.createNewFile())
                     System.exit(3);
-                uploadDatabase(new JsonObject());
+                uploadRepository(new JsonObject());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        this.databaseData = downloadDatabase();
+        this.repositoryData = downloadRepository();
     }
 
     @Override
-    public void save(String userId, UserParameters parameters) {
-        this.databaseData.put(userId, Parser.parseUserParametersToJsonObject(parameters));
-        uploadDatabase(this.databaseData);
+    public void saveUserData(String userId, UserParameters userData) {
+        this.repositoryData.put(userId, Parser.parseUserParametersToJsonObject(userData));
+        uploadRepository(this.repositoryData);
     }
 
     @Override
-    public UserParameters get(String userId) {
-        JsonObject userParametersAsJson = (JsonObject) this.databaseData.get(userId);
+    public UserParameters getUserData(String userId) {
+        JsonObject userParametersAsJson = (JsonObject) this.repositoryData.get(userId);
         return userParametersAsJson == null
                 ? null
                 : Parser.parseJsonObjectToUserParameters(userParametersAsJson);
     }
 
-    private JsonObject downloadDatabase() {
+    private JsonObject downloadRepository() {
         try {
-            Reader reader = Files.newBufferedReader(Paths.get(this.database.getPath()));
+            Reader reader = Files.newBufferedReader(Paths.get(this.repository.getPath()));
             JsonObject data = (JsonObject) Jsoner.deserialize(reader);
             reader.close();
             return data;
         } catch (IOException | JsonException e) {
             e.printStackTrace();
             System.exit(3);
+            return null;
         }
-        return null;
     }
 
-    private void uploadDatabase(JsonObject data) {
+    private void uploadRepository(JsonObject data) {
         try {
-            BufferedWriter writer = Files.newBufferedWriter(Paths.get(this.database.getPath()));
+            BufferedWriter writer = Files.newBufferedWriter(Paths.get(this.repository.getPath()));
             Jsoner.serialize(data, writer);
             writer.close();
         } catch (IOException e) {

@@ -1,6 +1,6 @@
 package botLogic;
 
-public class UserData {
+public class UserId {
     private static String userId;
 
     public static String getUserId() {
@@ -8,6 +8,6 @@ public class UserData {
     }
 
     public static void setUserId(String userId) {
-        UserData.userId = userId;
+        UserId.userId = userId;
     }
 }

@@ -1,10 +1,8 @@
 package kinopoiskAPI;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 
-// TODO метод по типу gotToNextPage
 public class Filter {
     private int[] countries;
     private int[] genres;

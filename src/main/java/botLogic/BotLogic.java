@@ -41,7 +41,7 @@ public class BotLogic {
 
     private String getResultOfCommandExecution(Token token, Method methodForCommand) {
         try {
-            UserData.setUserId(token.userId());
+            UserId.setUserId(token.userId());
             return (String) methodForCommand.invoke(commandListener, new Object[]{token.arguments()});
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();

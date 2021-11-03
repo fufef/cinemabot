@@ -1,7 +1,7 @@
 package botLogic.commands.genreCommand;
 
 import botLogic.UserParametersRepository;
-import botLogic.UserData;
+import botLogic.UserId;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import userParametersRepository.UserParameters;
@@ -16,7 +16,7 @@ public class GenreCommand {
     public Map<String,Integer> GenresIdMap;
 
     public void genre(Object[] arguments) {
-        UserParameters userParameters = UserParametersRepository.userParametersRepository.get(UserData.getUserId());
+        UserParameters userParameters = UserParametersRepository.userParametersRepository.getUserData(UserId.getUserId());
         Filter filter = userParameters.getFilter();
         ArrayList<Integer> addingGenres = new ArrayList<>();
         if (arguments.length == 0)

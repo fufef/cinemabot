@@ -1,13 +1,14 @@
 package userParametersRepository.jsonUserParametersRepository;
 
-import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonObject;
-import userParametersRepository.UserParameters;
+import com.github.cliftonlabs.json_simple.Jsoner;
+import com.google.gson.Gson;
 import kinopoiskAPI.Filter;
+import userParametersRepository.UserParameters;
 
 import static parser.Parser.parseToInt;
 
-public class Parser { //todo JsonConverter, не парсить самим
+public class Parser {
     public static JsonObject parseUserParametersToJsonObject(UserParameters parameters) {
         JsonObject parametersAsJson = new JsonObject();
         parametersAsJson.put("searchResult", parameters.getSearchResult());
@@ -18,18 +19,7 @@ public class Parser { //todo JsonConverter, не парсить самим
     }
 
     public static JsonObject parseFilterToJsonObject(Filter filter) {
-        //TODO Рефлексия?
-        JsonObject filterAsJson = new JsonObject();
-        filterAsJson.put("countries", filter.getCountries());
-        filterAsJson.put("genres", filter.getGenres());
-        filterAsJson.put("order", filter.getOrder());
-        filterAsJson.put("type", filter.getType());
-        filterAsJson.put("ratingFrom", filter.getRatingFrom());
-        filterAsJson.put("ratingTo", filter.getRatingTo());
-        filterAsJson.put("yearFrom", filter.getYearFrom());
-        filterAsJson.put("yearTo", filter.getYearTo());
-        filterAsJson.put("page", filter.getPage());
-        return filterAsJson;
+        return Jsoner.deserialize(new Gson().toJson(filter), new JsonObject());
     }
 
     public static UserParameters parseJsonObjectToUserParameters(JsonObject jsonObject) {
@@ -44,37 +34,7 @@ public class Parser { //todo JsonConverter, не парсить самим
         }
     }
 
-    public static Filter parseJsonObjectToFilter(JsonObject jsonObject) {
-        Filter filter = new Filter();
-        filter.setCountries(
-                parseToIntArray(jsonObject.get("countries")));
-        filter.setGenres(
-                parseToIntArray(jsonObject.get("genres")));
-        filter.setOrder((String) jsonObject.get("order"));
-        filter.setType((String) jsonObject.get("type"));
-        filter.setRatingFrom(
-                parseToInt(jsonObject.get("ratingFrom")));
-        filter.setRatingTo(
-                parseToInt(jsonObject.get("ratingTo")));
-        filter.setYearFrom(
-                parseToInt(jsonObject.get("yearFrom")));
-        filter.setYearTo(
-                parseToInt(jsonObject.get("yearTo")));
-        filter.setPage(
-                parseToInt(jsonObject.get("page")));
-        return filter;
-    }
-
-    private static int[] parseToIntArray(Object array) {
-        int[] result;
-        try {
-            result = (int[]) array;
-        } catch (ClassCastException exception) {
-            JsonArray jsonArray = (JsonArray) array;
-            result = new int[jsonArray.size()];
-            for (int i = 0; i < result.length; i++)
-                result[i] = parseToInt(jsonArray.get(i));
-        }
-        return result;
+    private static Filter parseJsonObjectToFilter(JsonObject jsonObject) {
+        return new Gson().fromJson(jsonObject.toJson(), Filter.class);
     }
 }

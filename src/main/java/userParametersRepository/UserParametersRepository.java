@@ -1,7 +1,7 @@
 package userParametersRepository;
 
 public interface UserParametersRepository {
-    void save(String userId, UserParameters userParameters);
+    void saveUserData(String userId, UserParameters userData);
 
-    UserParameters get(String userId);
+    UserParameters getUserData(String userId);
 }
