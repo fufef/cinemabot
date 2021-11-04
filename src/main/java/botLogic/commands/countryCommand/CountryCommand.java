@@ -1,6 +1,5 @@
 package botLogic.commands.countryCommand;
 
-import botLogic.userData.UserId;
 import botLogic.userData.UsersData;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

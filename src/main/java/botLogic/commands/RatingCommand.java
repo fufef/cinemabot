@@ -1,6 +1,5 @@
 package botLogic.commands;
 
-import botLogic.userData.UserId;
 import botLogic.userData.UsersData;
 import kinopoiskAPI.Filter;
 import userParametersRepository.UserParameters;

@@ -73,7 +73,7 @@ public class CommandListener {
                         /rating >r : поиск фильмов с рейтингом выше указанного
                         /rating <r : поиск фильмов с рейтингом ниже указанного
                     Вызов команды без указания рейтинга сбрасывает фильтр по рейтингу""")
-    public void rating(Object[] argument) {
+    public void rating(Object[] arguments) {
     }
 
     @Command(
@@ -87,7 +87,7 @@ public class CommandListener {
                         /year >y : поиск фильмов, выпущенных позже указанного года
                         /year <y : поиск фильмов, выпущенных ранее указанного года
                     Вызов команды без указания года(ов) сбрасывает фильтр по году""")
-    public void year(Object argument) {
+    public void year(Object arguments) {
     }
 
     @Command(
