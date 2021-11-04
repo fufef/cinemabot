@@ -5,9 +5,9 @@ import userParametersRepository.jsonUserParametersRepository.JSONUserParametersR
 
 public class Main {
     public static void main(String[] args) {
-        UsersData.userParametersRepository = Repository.getInstance(
-                new JSONUserParametersRepository(
-                        "src/main/java/userParametersRepository/jsonUserParametersRepository/database.json"));
+        UsersData.initializeRepository(
+                Repository.getInstance(new JSONUserParametersRepository(
+                        "src/main/java/userParametersRepository/jsonUserParametersRepository/database.json")));
         ConsoleBot bot = new ConsoleBot();
         bot.start();
     }

@@ -6,10 +6,10 @@ import kinopoiskAPI.Filter;
 import userParametersRepository.UserParameters;
 
 import static java.util.Objects.isNull;
-
+/// TODO: 04.11.2021
 public class YearCommand {
     public void year(Object argument) {
-        UserParameters userParameters = UsersData.userParametersRepository.getUserData(UserId.getIdOfCurrentUser());
+        UserParameters userParameters = UsersData.getParametersOfCurrentUser();
         Filter filter = userParameters.getFilter();
         if (isNull(argument)){
             filter.setYearTo(Integer.MAX_VALUE);

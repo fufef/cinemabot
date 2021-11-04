@@ -1,24 +1,25 @@
 package botLogic.commands;
 
-import botLogic.userData.UserId;
 import botLogic.userData.UsersData;
 import kinopoiskAPI.Filter;
 import userParametersRepository.UserParameters;
 
-import static java.util.Objects.isNull;
-
 public class TypeCommand {
-    public void type(Object argument) {
-        UserParameters userParameters = UsersData.userParametersRepository.getUserData(UserId.getIdOfCurrentUser());
+    public static String type(Object[] arguments) throws Exception {
+        String typeOfMovie = arguments.length == 0 ? "all" : (String) arguments[0];
+        return type(typeOfMovie);
+    }
+
+    private static String type(String typeOfMovie) throws Exception {
+        UserParameters userParameters = UsersData.getParametersOfCurrentUser();
         Filter filter = userParameters.getFilter();
-        if (isNull(argument))
-            filter.setType("");
-        else {
-            String type = String.valueOf(argument);
-            if (type.equals("film"))
-                filter.setType("film");
-            else if (type.equals("serial"))
-                filter.setType("serial");
+        switch (typeOfMovie) {
+            case "film" -> filter.setType("FILM");
+            case "serial" -> filter.setType("TV_SHOW");
+            case "all" -> filter.setType("ALL");
+            default -> throw new IllegalArgumentException("Указан некорректный тип фильма");
         }
+        UsersData.saveSearchResultOfCurrentUser(filter);
+        return String.format("Параметры поиска успешно изменены: тип - %s", typeOfMovie);
     }
 }

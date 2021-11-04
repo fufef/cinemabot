@@ -17,6 +17,4 @@ public @interface Command {
     int maxArgs() default Integer.MAX_VALUE;
 
     String description();
-
-//    String aliases();
 }

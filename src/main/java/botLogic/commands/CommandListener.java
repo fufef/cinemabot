@@ -52,7 +52,12 @@ public class CommandListener {
                         /type serial : искать только сериалы
                         /type film : искать только фильмы
                     Вызов команды без указания типа контента сбрасывает фильтр по типу""")
-    public void type(Object argument) {
+    public String type(Object[] arguments) {
+        try {
+            return TypeCommand.type(arguments);
+        } catch (Exception e) {
+            return "Ошибка в процессе выполнения команды /type";
+        }
     }
 
     @Command(
@@ -66,7 +71,7 @@ public class CommandListener {
                         /rating >r : поиск фильмов с рейтингом выше указанного
                         /rating <r : поиск фильмов с рейтингом ниже указанного
                     Вызов команды без указания рейтинга сбрасывает фильтр по рейтингу""")
-    public void rating(Object argument) {
+    public void rating(Object[] argument) {
     }
 
     @Command(

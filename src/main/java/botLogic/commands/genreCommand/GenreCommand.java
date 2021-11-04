@@ -11,12 +11,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
-
+/// TODO: 04.11.2021
 public class GenreCommand {
     public Map<String,Integer> GenresIdMap;
 
     public void genre(Object[] arguments) {
-        UserParameters userParameters = UsersData.userParametersRepository.getUserData(UserId.getIdOfCurrentUser());
+        UserParameters userParameters = UsersData.getParametersOfCurrentUser();
         Filter filter = userParameters.getFilter();
         ArrayList<Integer> addingGenres = new ArrayList<>();
         if (arguments.length == 0)
