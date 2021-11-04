@@ -16,7 +16,7 @@ public class CommandListener {
                     Если указан аргумент [command], выводит справку по указанной команде""")
     public String help(Object[] arguments) {
         if (arguments.length > 0)
-            return HelpCommand.getHelpForCommand(getAllCommands(), pullOutArguments(arguments)[0]);
+            return HelpCommand.getHelpForCommand(getAllCommands(), (String) (arguments)[0]);
         return HelpCommand.getHelpForAllCommands(getAllCommands());
     }
 
@@ -54,7 +54,7 @@ public class CommandListener {
                     Вызов команды без указания типа контента сбрасывает фильтр по типу""")
     public String type(Object[] arguments) {
         try {
-            TypeCommand.type(arguments);
+            TypeCommand.type((String[]) arguments);
             return notifyAboutSuccessfulResult("/type");
         } catch (Exception e) {
             e.printStackTrace();
@@ -87,7 +87,14 @@ public class CommandListener {
                         /year >y : поиск фильмов, выпущенных позже указанного года
                         /year <y : поиск фильмов, выпущенных ранее указанного года
                     Вызов команды без указания года(ов) сбрасывает фильтр по году""")
-    public void year(Object arguments) {
+    public String year(Object[] arguments) {
+        try {
+            YearCommand.year((String[]) arguments);
+            return notifyAboutSuccessfulResult("/year");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return notifyAboutUnsuccessfulResult("/year");
+        }
     }
 
     @Command(
@@ -97,10 +104,6 @@ public class CommandListener {
                     Сортировка по странам. Список стран указывается через пробел
                     Вызов команды без указания страны(ан) сбрасывает фильтр по странам""")
     public void country(Object[] arguments) {
-    }
-
-    private String[] pullOutArguments(Object[] arguments) {
-        return (String[]) arguments;
     }
 
     private List<Command> getAllCommands() {
@@ -116,6 +119,6 @@ public class CommandListener {
     }
 
     private String notifyAboutUnsuccessfulResult(String commandName) {
-        return String.format("Ошибка в процессе выполнения команды %s", commandName);
+        return String.format("Ошибка в процессе выполнения команды %s\nДля справки используйте /help", commandName);
     }
 }

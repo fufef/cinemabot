@@ -4,8 +4,8 @@ import botLogic.userData.UsersData;
 import kinopoiskAPI.Filter;
 
 public class TypeCommand {
-    public static void type(Object[] arguments) throws Exception {
-        String typeOfMovie = arguments.length == 0 ? "all" : (String) arguments[0];
+    public static void type(String[] arguments) throws Exception {
+        String typeOfMovie = arguments.length == 0 ? "all" : arguments[0];
         setType(typeOfMovie);
     }
 

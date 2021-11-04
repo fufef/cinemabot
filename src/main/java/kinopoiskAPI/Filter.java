@@ -106,6 +106,11 @@ public class Filter {
         this.yearTo = yearTo;
     }
 
+    public void resetYears() {
+        yearFrom = 0;
+        yearTo = Integer.MAX_VALUE;
+    }
+
     public int getPage() {
         return page;
     }
