@@ -30,7 +30,7 @@ public class CommandListener {
         try {
             return AdviseCommand.advise();
         } catch (Exception e) {
-            return "Ошибка в процессе выполнения команды /advise";
+            return notifyAboutUnsuccessfulResult("/advise");
         }
     }
 
@@ -54,9 +54,11 @@ public class CommandListener {
                     Вызов команды без указания типа контента сбрасывает фильтр по типу""")
     public String type(Object[] arguments) {
         try {
-            return TypeCommand.type(arguments);
+            TypeCommand.type(arguments);
+            return notifyAboutSuccessfulResult("/type");
         } catch (Exception e) {
-            return "Ошибка в процессе выполнения команды /type";
+            e.printStackTrace();
+            return notifyAboutUnsuccessfulResult("/type");
         }
     }
 
@@ -107,5 +109,13 @@ public class CommandListener {
                 .filter(m -> m.isAnnotationPresent(Command.class))
                 .map(m -> m.getAnnotation(Command.class))
                 .collect(Collectors.toList());
+    }
+
+    private String notifyAboutSuccessfulResult(String commandName) {
+        return String.format("Команда %s успешно выполнена", commandName);
+    }
+
+    private String notifyAboutUnsuccessfulResult(String commandName) {
+        return String.format("Ошибка в процессе выполнения команды %s", commandName);
     }
 }

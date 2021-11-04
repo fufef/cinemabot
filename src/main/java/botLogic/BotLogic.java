@@ -27,17 +27,13 @@ public class BotLogic {
         if (methodForCommand == null)
             return String.format("Неизвестная команда %s", commandName);
         Command command = methodForCommand.getAnnotation(Command.class);
-        if (arguments.length < command.minArgs() || arguments.length > command.maxArgs()) {
-            return String.format(
-                    "Команда %s принимает %d - %d аргументов",
-                    command.name(),
-                    command.minArgs(),
-                    command.maxArgs());
-        }
-        String result = getResultOfCommandExecution(token, methodForCommand);
-        if (result == null)
-            return String.format("Ошибка в процессе выполнения команды %s", commandName);
-        return result;
+        if (arguments.length >= command.minArgs() && arguments.length <= command.maxArgs())
+            return getResultOfCommandExecution(token, methodForCommand);
+        return String.format(
+                "Команда %s принимает %d - %d аргументов",
+                command.name(),
+                command.minArgs(),
+                command.maxArgs());
     }
 
     private String getResultOfCommandExecution(Token token, Method methodForCommand) {
