@@ -1,7 +1,8 @@
 package botLogic.commands.adviseCommand;
 
-import botLogic.UserParametersRepository;
-import botLogic.UserId;
+import botLogic.userData.UsersData;
+import userParametersRepository.Repository;
+import botLogic.userData.UserId;
 import com.github.cliftonlabs.json_simple.JsonObject;
 import userParametersRepository.UserParameters;
 import parser.Parser;
@@ -59,10 +60,10 @@ public class AdviseCommand {
     }
 
     private static void saveParametersOfCurrentUser(UserParameters userParameters) {
-        UserParametersRepository.userParametersRepository.saveUserData(UserId.getUserId(), userParameters);
+        UsersData.userParametersRepository.saveUserData(UserId.getIdOfCurrentUser(), userParameters);
     }
 
     private static UserParameters getParametersOfCurrentUser() {
-        return UserParametersRepository.userParametersRepository.getUserData(UserId.getUserId());
+        return UsersData.userParametersRepository.getUserData(UserId.getIdOfCurrentUser());
     }
 }

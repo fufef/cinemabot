@@ -1,15 +1,15 @@
 package botLogic.commands;
 
-import botLogic.UserParametersRepository;
-import botLogic.UserId;
-import userParametersRepository.UserParameters;
+import botLogic.userData.UserId;
+import botLogic.userData.UsersData;
 import kinopoiskAPI.Filter;
+import userParametersRepository.UserParameters;
 
 import static java.util.Objects.isNull;
 
 public class TypeCommand {
     public void type(Object argument) {
-        UserParameters userParameters = UserParametersRepository.userParametersRepository.getUserData(UserId.getUserId());
+        UserParameters userParameters = UsersData.userParametersRepository.getUserData(UserId.getIdOfCurrentUser());
         Filter filter = userParameters.getFilter();
         if (isNull(argument))
             filter.setType("");

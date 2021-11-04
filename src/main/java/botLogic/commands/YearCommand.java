@@ -1,7 +1,7 @@
 package botLogic.commands;
 
-import botLogic.UserId;
-import botLogic.UserParametersRepository;
+import botLogic.userData.UserId;
+import botLogic.userData.UsersData;
 import kinopoiskAPI.Filter;
 import userParametersRepository.UserParameters;
 
@@ -9,7 +9,7 @@ import static java.util.Objects.isNull;
 
 public class YearCommand {
     public void year(Object argument) {
-        UserParameters userParameters = UserParametersRepository.userParametersRepository.getUserData(UserId.getUserId());
+        UserParameters userParameters = UsersData.userParametersRepository.getUserData(UserId.getIdOfCurrentUser());
         Filter filter = userParameters.getFilter();
         if (isNull(argument)){
             filter.setYearTo(Integer.MAX_VALUE);

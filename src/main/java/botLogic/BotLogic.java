@@ -2,6 +2,7 @@ package botLogic;
 
 import botLogic.commands.Command;
 import botLogic.commands.CommandListener;
+import botLogic.userData.UserId;
 import tokenizer.Token;
 
 import java.lang.reflect.InvocationTargetException;
@@ -41,7 +42,7 @@ public class BotLogic {
 
     private String getResultOfCommandExecution(Token token, Method methodForCommand) {
         try {
-            UserId.setUserId(token.userId());
+            UserId.setIdOfCurrentUser(token.userId());
             return (String) methodForCommand.invoke(commandListener, new Object[]{token.arguments()});
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();

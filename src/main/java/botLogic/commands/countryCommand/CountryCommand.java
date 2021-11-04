@@ -1,11 +1,11 @@
 package botLogic.commands.countryCommand;
 
-import botLogic.UserParametersRepository;
-import botLogic.UserId;
+import botLogic.userData.UserId;
+import botLogic.userData.UsersData;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import userParametersRepository.UserParameters;
 import kinopoiskAPI.Filter;
+import userParametersRepository.UserParameters;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +16,7 @@ public class CountryCommand {
     public Map<String,Integer> CountriesIdMap;
 
     public void country(Object[] arguments) {
-        UserParameters userParameters = UserParametersRepository.userParametersRepository.getUserData(UserId.getUserId());
+        UserParameters userParameters = UsersData.userParametersRepository.getUserData(UserId.getIdOfCurrentUser());
         Filter filter = userParameters.getFilter();
         ArrayList<Integer> addingCountries = new ArrayList<>();
         if (arguments.length == 0)
