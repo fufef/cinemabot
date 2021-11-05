@@ -1,6 +1,7 @@
 package botLogic.commands.adviseCommand;
 
 import botLogic.commands.CommandException;
+import botLogic.commands.adviseCommand.formatter.Formatter;
 import botLogic.userData.UsersData;
 import com.github.cliftonlabs.json_simple.JsonObject;
 import kinopoiskAPI.Filter;
