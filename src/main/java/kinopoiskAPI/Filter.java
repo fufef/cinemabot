@@ -6,7 +6,6 @@ import java.util.HashSet;
 public class Filter {
     private int[] countries;
     private int[] genres;
-    private String order = "";
     private String type = "";
     private int ratingFrom;
     private int ratingTo;
@@ -57,11 +56,7 @@ public class Filter {
     }
 
     public String getOrder() {
-        return order;
-    }
-
-    public void setOrder(String order) {
-        this.order = order;
+        return "";
     }
 
     public String getType() {

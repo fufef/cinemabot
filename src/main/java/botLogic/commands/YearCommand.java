@@ -4,7 +4,7 @@ import botLogic.userData.UsersData;
 import kinopoiskAPI.Filter;
 
 public class YearCommand {
-    public static void year(String[] arguments) throws Exception {
+    public static void setYear(String[] arguments) throws Exception {
         if (arguments.length == 0)
             resetYears();
         else {

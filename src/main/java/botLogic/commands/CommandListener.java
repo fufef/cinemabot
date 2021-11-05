@@ -19,8 +19,8 @@ public class CommandListener {
             if (arguments.length > 0)
                 return HelpCommand.getHelpForCommand(getAllCommands(), (String) (arguments)[0]);
             return HelpCommand.getHelpForAllCommands(getAllCommands());
-        } catch (CommandException e) {
-            return notifyAboutUnsuccessfulResult("/help", e.getMessage());
+        } catch (CommandException exception) {
+            return notifyAboutUnsuccessfulResult("/help", exception.getMessage());
         }
     }
 
@@ -33,22 +33,12 @@ public class CommandListener {
     public String advise(Object[] arguments) {
         try {
             return AdviseCommand.advise();
-        } catch (CommandException e) {
-            return notifyAboutUnsuccessfulResult("/advise", e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (CommandException exception) {
+            return notifyAboutUnsuccessfulResult("/advise", exception.getMessage());
+        } catch (Exception exception) {
+            exception.printStackTrace();
             return notifyAboutUnsuccessfulResult("/advise");
         }
-    }
-
-    @Command(
-            name = "/genre",
-            arguments = "'название жанра/жанров'",
-            description = """
-                    Сортировка по жанру/жанрам фильма (жанры указываются через пробел)
-                    Вызов команды без указания жанра сбрасывает фильтр по жанрам"""
-    )
-    public void genre(Object[] arguments) {
     }
 
     @Command(
@@ -61,13 +51,36 @@ public class CommandListener {
                     Вызов команды без указания типа контента сбрасывает фильтр по типу""")
     public String type(Object[] arguments) {
         try {
-            TypeCommand.type((String[]) arguments);
+            TypeCommand.setType((String[]) arguments);
             return notifyAboutSuccessfulResult("/type");
-        } catch (IllegalArgumentException e) {
-            return notifyAboutUnsuccessfulResult("/type", e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IllegalArgumentException exception) {
+            return notifyAboutUnsuccessfulResult("/type", exception.getMessage());
+        } catch (Exception exception) {
+            exception.printStackTrace();
             return notifyAboutUnsuccessfulResult("/type");
+        }
+    }
+
+    @Command(
+            name = "/year",
+            arguments = "y | y y | >y | <y",
+            maxArgs = 2,
+            description = """
+                    Сортировка по году(ам) выхода фильма
+                        /year y : поиск по указанному году
+                        /year y y : поиск по указанному временному промежутку
+                        /year >y : поиск фильмов, выпущенных позже указанного года
+                        /year <y : поиск фильмов, выпущенных ранее указанного года
+                    Вызов команды без указания года(ов) сбрасывает фильтр по году""")
+    public String year(Object[] arguments) {
+        try {
+            YearCommand.setYear((String[]) arguments);
+            return notifyAboutSuccessfulResult("/year");
+        } catch (CommandException exception) {
+            return notifyAboutUnsuccessfulResult("/year", exception.getMessage());
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return notifyAboutUnsuccessfulResult("/year");
         }
     }
 
@@ -78,34 +91,31 @@ public class CommandListener {
             description = """
                     Сортировка по рейтингу фильмов.
                         /rating r : поиск фильмов с указанным рейтингом
-                        /rating r-r : поиск фильмов с рейтингом в указанном диапазоне
+                        /rating r r : поиск фильмов с рейтингом в указанном диапазоне
                         /rating >r : поиск фильмов с рейтингом выше указанного
                         /rating <r : поиск фильмов с рейтингом ниже указанного
                     Вызов команды без указания рейтинга сбрасывает фильтр по рейтингу""")
-    public void rating(Object[] arguments) {
+    public String rating(Object[] arguments) {
+        try {
+            RatingCommand.setRating((String[]) arguments);
+            return notifyAboutSuccessfulResult("/rating");
+        } catch (CommandException exception) {
+            return notifyAboutUnsuccessfulResult("/rating", exception.getMessage());
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return notifyAboutUnsuccessfulResult("/rating");
+        }
     }
 
     @Command(
-            name = "/year",
-            arguments = "y | y y | >y | <y",
-            maxArgs = 2,
+            name = "/genre",
+            arguments = "'название жанра/жанров'",
             description = """
-                    Сортировка по году(ам) выхода фильма
-                        /year y : поиск по указанному году
-                        /year y-y : поиск по указанному временному промежутку
-                        /year >y : поиск фильмов, выпущенных позже указанного года
-                        /year <y : поиск фильмов, выпущенных ранее указанного года
-                    Вызов команды без указания года(ов) сбрасывает фильтр по году""")
-    public String year(Object[] arguments) {
-        try {
-            YearCommand.year((String[]) arguments);
-            return notifyAboutSuccessfulResult("/year");
-        } catch (CommandException e) {
-            return notifyAboutUnsuccessfulResult("/year", e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return notifyAboutUnsuccessfulResult("/year");
-        }
+                    Сортировка по жанру/жанрам фильма (жанры указываются через пробел)
+                    Вызов команды без указания жанра сбрасывает фильтр по жанрам"""
+    )
+    public String genre(Object[] arguments) {
+        return null;
     }
 
     @Command(
@@ -114,7 +124,8 @@ public class CommandListener {
             description = """
                     Сортировка по странам. Список стран указывается через пробел
                     Вызов команды без указания страны(ан) сбрасывает фильтр по странам""")
-    public void country(Object[] arguments) {
+    public String country(Object[] arguments) {
+        return null;
     }
 
     private List<Command> getAllCommands() {

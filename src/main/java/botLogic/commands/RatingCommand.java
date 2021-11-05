@@ -2,35 +2,57 @@ package botLogic.commands;
 
 import botLogic.userData.UsersData;
 import kinopoiskAPI.Filter;
-import userParametersRepository.UserParameters;
 
-import static java.util.Objects.isNull;
-/// TODO: 04.11.2021
 public class RatingCommand {
-    public void rating(Object argument) {
-        UserParameters userParameters = UsersData.getParametersOfCurrentUser();
-        Filter filter = userParameters.getFilter();
-        if (isNull(argument)){
-            filter.setRatingTo(10);
-            filter.setRatingFrom(0);
-        }
+    public static void setRating(String[] arguments) throws Exception {
+        if (arguments.length == 0)
+            resetRatings();
         else {
-            String arg = String.valueOf(argument);
-            int from = 0;
-            int to = 10;
-            if (arg.contains("-")){
-                int ind = arg.indexOf('-');
-                from = Integer.parseInt(arg.substring(0, ind));
-                to = Integer.parseInt(arg.substring(ind + 1));
-            }
-            else if (arg.contains(">")){
-                from = Integer.parseInt(arg.substring(1));
-            }
-            else if (arg.contains("<")){
-                to = Integer.parseInt(arg.substring(1));
-            }
-            filter.setRatingTo(to);
-            filter.setRatingFrom(from);
+            if (arguments.length == 1)
+                setRating(arguments[0]);
+            else
+                setRatings(arguments[0], arguments[1]);
+        }
+    }
+
+    private static void resetRatings() throws Exception {
+        Filter filter = UsersData.getParametersOfCurrentUser().getFilter();
+        filter.resetRatings();
+        UsersData.saveSearchResultOfCurrentUser(filter);
+    }
+
+    private static void setRatings(String ratingFrom, String ratingTo) throws Exception {
+        Filter filter = UsersData.getParametersOfCurrentUser().getFilter();
+        filter.setRatingFrom(tryParseRatingToInt(ratingFrom));
+        filter.setRatingTo(tryParseRatingToInt(ratingTo));
+        checkCorrectnessOfRatings(filter);
+        UsersData.saveSearchResultOfCurrentUser(filter);
+    }
+
+    private static void setRating(String rating) throws Exception {
+        Filter filter = UsersData.getParametersOfCurrentUser().getFilter();
+        switch (rating.charAt(0)) {
+            case '>' -> filter.setRatingFrom(tryParseRatingToInt(rating.substring(1)));
+            case '<' -> filter.setRatingTo(tryParseRatingToInt(rating.substring(1)));
+            default -> throw new CommandException("Рейтинг указан некорректно");
+        }
+        checkCorrectnessOfRatings(filter);
+        UsersData.saveSearchResultOfCurrentUser(filter);
+    }
+
+    private static void checkCorrectnessOfRatings(Filter filter) {
+        if (filter.getRatingFrom() > filter.getRatingTo())
+            throw new CommandException("Указанный минимальный рейтинг больше указанного максимального");
+    }
+
+    private static int tryParseRatingToInt(String rating) {
+        try {
+            int result = Integer.parseInt(rating);
+            if (result < 0 || result > 10)
+                throw new CommandException("Рейтинг должен находиться в пределах 0-10");
+            return result;
+        } catch (NumberFormatException exception) {
+            throw new CommandException("Рейтинг должен быть указан числом");
         }
     }
 }
