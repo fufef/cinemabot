@@ -1,38 +1,49 @@
 package botLogic.commands.genreCommand;
 
+import botLogic.commands.CommandException;
 import botLogic.userData.UsersData;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import kinopoiskAPI.API;
 import kinopoiskAPI.Filter;
-import userParametersRepository.UserParameters;
+import parser.Parser;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
-/// TODO: 04.11.2021
-public class GenreCommand {
-    public Map<String,Integer> GenresIdMap;
 
-    public void genre(Object[] arguments) {
-        UserParameters userParameters = UsersData.getParametersOfCurrentUser();
-        Filter filter = userParameters.getFilter();
-        ArrayList<Integer> addingGenres = new ArrayList<>();
-        if (arguments.length == 0)
-            filter.setGenres(new int[]{});
-        else {
+public class GenreCommand {
+    private static final Map<String, Integer> genresIdMap;
+
+    static {
+        genresIdMap = API.getGenresId();
+    }
+
+    public static void setGenre(String[] arguments) throws Exception {
+        if (arguments.length > 0)
+            setGenres(arguments);
+        else
+            resetGenres();
+    }
+
+    private static void setGenres(String[] genres) throws Exception {
+        Filter filter = UsersData.getParametersOfCurrentUser().getFilter();
+        filter.setGenres(getGenresId(genres));
+        UsersData.saveSearchResultOfCurrentUser(filter);
+    }
+
+    private static int[] getGenresId(String[] genres) {
+        HashSet<Integer> addingGenres = new HashSet<>();
+        for (String genre : genres) {
             try {
-                GenresIdMap = new ObjectMapper().readValue(new File("\\GenresId"), new TypeReference<Map<String, Integer>>(){});
-            } catch (IOException e) {
-                e.printStackTrace();
+                addingGenres.add(genresIdMap.get(genre));
+            } catch (NullPointerException exception) {
+                throw new CommandException(String.format("Неизвестный жанр: %s", genre));
             }
-            for (Object arg : arguments) {
-                if (GenresIdMap.containsKey(String.valueOf(arg))) {
-                    Integer genreId = GenresIdMap.get(String.valueOf(arg));
-                    addingGenres.add(genreId);
-                }
-            }
-            filter.addGenres(addingGenres);
         }
+        return Parser.parseArrayToArrayOfInt(addingGenres.toArray(Integer[]::new));
+    }
+
+    private static void resetGenres() throws Exception {
+        Filter filter = UsersData.getParametersOfCurrentUser().getFilter();
+        filter.setGenres(new int[0]);
+        UsersData.saveSearchResultOfCurrentUser(filter);
     }
 }

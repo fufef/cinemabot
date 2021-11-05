@@ -2,9 +2,9 @@ package userParametersRepository;
 
 import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonObject;
+import kinopoiskAPI.API;
 import kinopoiskAPI.Filter;
-
-import java.math.BigDecimal;
+import parser.Parser;
 
 public class UserParameters {
     private JsonObject searchResult;
@@ -12,6 +12,14 @@ public class UserParameters {
     private int numberOfCurrentFilm;
     private int countOfFilmsOnCurrentPage;
     private int pagesCount;
+
+    public UserParameters() {
+        this.searchResult = API.getEmptySearchResult();
+        this.filter = new Filter();
+        this.pagesCount = 0;
+        this.countOfFilmsOnCurrentPage = getCountOfFilmsOnCurrentPage(searchResult);
+        this.numberOfCurrentFilm = 1;
+    }
 
     public UserParameters(JsonObject searchResult, Filter filter, int numberOfCurrentFilm) throws Exception {
         setSearchResult(searchResult);
@@ -34,11 +42,11 @@ public class UserParameters {
     }
 
     private void setNumberOfCurrentFilm(int numberOfCurrentFilm) throws Exception {
-        if (numberOfCurrentFilm < 0)
+        if (numberOfCurrentFilm < 1)
             throw new Exception(String.format(
-                    "numberOfCurrentFilm: %d, but numberOfCurrentFilm cannot be less than 0",
+                    "numberOfCurrentFilm: %d, but numberOfCurrentFilm cannot be less than 10",
                     numberOfCurrentFilm));
-        if (numberOfCurrentFilm > countOfFilmsOnCurrentPage)
+        if (numberOfCurrentFilm - 1 > countOfFilmsOnCurrentPage)
             throw new Exception(String.format(
                     "numberOfCurrentFilm: %d, countOfFilmsOnCurrentPage: %d, " +
                             "but numberOfCurrentFilm cannot be more than count of films on current page",
@@ -92,10 +100,7 @@ public class UserParameters {
     }
 
     private int getPageCount(JsonObject searchResult) {
-        BigDecimal count = (BigDecimal) searchResult.get("pagesCount");
-        if (count == null)
-            return 0;
-        return count.intValue();
+        return Parser.parseObjectToInt(searchResult.get("pagesCount"));
     }
 
     private int getCountOfFilmsOnCurrentPage(JsonObject searchResult) {

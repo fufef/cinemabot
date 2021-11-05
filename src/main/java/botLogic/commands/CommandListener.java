@@ -1,6 +1,7 @@
 package botLogic.commands;
 
 import botLogic.commands.adviseCommand.AdviseCommand;
+import botLogic.commands.genreCommand.GenreCommand;
 
 import java.util.Arrays;
 import java.util.List;
@@ -115,7 +116,15 @@ public class CommandListener {
                     Вызов команды без указания жанра сбрасывает фильтр по жанрам"""
     )
     public String genre(Object[] arguments) {
-        return null;
+        try {
+            GenreCommand.setGenre((String[]) arguments);
+            return notifyAboutSuccessfulResult("/genre");
+        } catch (CommandException exception) {
+            return notifyAboutUnsuccessfulResult("/genre", exception.getMessage());
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return notifyAboutUnsuccessfulResult("/genre");
+        }
     }
 
     @Command(

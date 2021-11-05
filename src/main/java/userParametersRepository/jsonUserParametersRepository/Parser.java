@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 import kinopoiskAPI.Filter;
 import userParametersRepository.UserParameters;
 
-import static parser.Parser.parseToInt;
+import static parser.Parser.parseObjectToInt;
 
 public class Parser {
     public static JsonObject parseUserParametersToJsonObject(UserParameters parameters) {
@@ -27,10 +27,10 @@ public class Parser {
             return new UserParameters(
                     (JsonObject) jsonObject.get("searchResult"),
                     parseJsonObjectToFilter((JsonObject) jsonObject.get("filter")),
-                    parseToInt(jsonObject.get("numberOfCurrentFilm")));
+                    parseObjectToInt(jsonObject.get("numberOfCurrentFilm")));
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return new UserParameters();
         }
     }
 

@@ -1,6 +1,6 @@
 import botLogic.userData.UsersData;
-import userParametersRepository.Repository;
 import bots.consoleBot.ConsoleBot;
+import userParametersRepository.Repository;
 import userParametersRepository.jsonUserParametersRepository.JSONUserParametersRepository;
 
 public class Main {
@@ -8,7 +8,6 @@ public class Main {
         UsersData.initializeRepository(
                 Repository.getInstance(new JSONUserParametersRepository(
                         "src/main/java/userParametersRepository/jsonUserParametersRepository/database.json")));
-        ConsoleBot bot = new ConsoleBot();
-        bot.start();
+        new ConsoleBot().start();
     }
 }

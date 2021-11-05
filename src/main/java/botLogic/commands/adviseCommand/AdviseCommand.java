@@ -21,7 +21,7 @@ public class AdviseCommand {
         JsonObject filmInfo = userParameters.getCurrentFilm();
         if (filmInfo == null)
             throw new CommandException("Фильмы не найдены");
-        int filmId = Parser.parseToInt(filmInfo.get("filmId"));
+        int filmId = Parser.parseObjectToInt(filmInfo.get("filmId"));
         String descriptionOfFilm = Formatter.getInformationAboutFilm(filmId);
         goToNextFilm(userParameters);
         return descriptionOfFilm;

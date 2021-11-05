@@ -42,9 +42,9 @@ public class JSONUserParametersRepository implements UserParametersRepository {
     @Override
     public UserParameters getUserData(String userId) {
         JsonObject userParametersAsJson = (JsonObject) this.repositoryData.get(userId);
-        return userParametersAsJson == null
-                ? null
-                : Parser.parseJsonObjectToUserParameters(userParametersAsJson);
+        if (userParametersAsJson == null)
+            return new UserParameters();
+        return Parser.parseJsonObjectToUserParameters(userParametersAsJson);
     }
 
     private JsonObject downloadRepository() {

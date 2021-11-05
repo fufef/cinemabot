@@ -62,14 +62,14 @@ public class Formatter {
         Object ratingImdb = information.get("ratingImdb");
         if (ratingImdb == null)
             return 0.0;
-        return Parser.parseToDouble(ratingImdb);
+        return Parser.parseObjectToDouble(ratingImdb);
     }
 
     private static double getRatingKinopoisk(JsonObject information) {
         Object ratingKinopoisk = information.get("ratingKinopoisk");
         if (ratingKinopoisk == null)
             return 0.0;
-        return Parser.parseToDouble(ratingKinopoisk);
+        return Parser.parseObjectToDouble(ratingKinopoisk);
     }
 
     private static String getWebUrl(JsonObject information) {
