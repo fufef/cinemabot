@@ -48,8 +48,8 @@ public class CommandListener {
             arguments = "serial | film",
             maxArgs = 1,
             description = """ 
-                        /type serial : искать только сериалы
-                        /type film : искать только фильмы
+                    /type serial : искать только сериалы
+                    /type film : искать только фильмы
                     Вызов команды без указания типа контента сбрасывает фильтр по типу""")
     public String type(Object[] arguments) {
         try {
