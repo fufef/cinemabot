@@ -136,7 +136,7 @@ public class CommandListener {
     private String notifyAboutUnsuccessfulResult(String commandName, String errorMessage) {
         return String.format(
                 "Ошибка в процессе выполнения команды %s\n%s\nДля справки используйте /help",
-                errorMessage,
-                commandName);
+                commandName,
+                errorMessage);
     }
 }
