@@ -7,6 +7,7 @@ import kinopoiskAPI.httpRequest.HTTPRequest;
 import parser.Parser;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class API {
@@ -70,7 +71,7 @@ public class API {
         for (var item : array) {
             JsonObject itemAsJsonObject = (JsonObject) item;
             result.put(
-                    (String) itemAsJsonObject.get(key),
+                    ((String) itemAsJsonObject.get(key)).toLowerCase(Locale.ROOT),
                     Parser.parseObjectToInt(itemAsJsonObject.get("id")));
         }
         return result;

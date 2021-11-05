@@ -1,11 +1,49 @@
 package botLogic.commands.countryCommand;
 
+import botLogic.commands.CommandException;
+import botLogic.userData.UsersData;
+import kinopoiskAPI.API;
+import kinopoiskAPI.Filter;
+import parser.Parser;
+
+import java.util.HashSet;
 import java.util.Map;
 
 public class CountryCommand {
-    public Map<String, Integer> CountriesIdMap;
+    private static final Map<String, Integer> countriesIdMap;
 
-    public void country(Object[] arguments) {
+    static {
+        countriesIdMap = API.getCountriesId();
+    }
 
+    public static void setCountry(String[] arguments) throws Exception {
+        if (arguments.length > 0)
+            setCountries(arguments);
+        else
+            resetCountries();
+    }
+
+    private static void setCountries(String[] countries) throws Exception {
+        Filter filter = UsersData.getParametersOfCurrentUser().getFilter();
+        filter.setCountries(getCountriesId(countries));
+        UsersData.saveSearchResultOfCurrentUser(filter);
+    }
+
+    private static int[] getCountriesId(String[] countries) {
+        HashSet<Integer> addingCountries = new HashSet<>();
+        for (String country : countries) {
+            try {
+                addingCountries.add(countriesIdMap.get(country));
+            } catch (NullPointerException exception) {
+                throw new CommandException(String.format("Неизвестная страна: %s", country));
+            }
+        }
+        return Parser.parseArrayToArrayOfInt(addingCountries.toArray(Integer[]::new));
+    }
+
+    private static void resetCountries() throws Exception {
+        Filter filter = UsersData.getParametersOfCurrentUser().getFilter();
+        filter.setCountries(new int[0]);
+        UsersData.saveSearchResultOfCurrentUser(filter);
     }
 }

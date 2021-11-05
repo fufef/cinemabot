@@ -1,6 +1,7 @@
 package botLogic.commands;
 
 import botLogic.commands.adviseCommand.AdviseCommand;
+import botLogic.commands.countryCommand.CountryCommand;
 import botLogic.commands.genreCommand.GenreCommand;
 
 import java.util.Arrays;
@@ -134,7 +135,15 @@ public class CommandListener {
                     Сортировка по странам. Список стран указывается через пробел
                     Вызов команды без указания страны(ан) сбрасывает фильтр по странам""")
     public String country(Object[] arguments) {
-        return null;
+        try {
+            CountryCommand.setCountry((String[]) arguments);
+            return notifyAboutSuccessfulResult("/country");
+        } catch (CommandException exception) {
+            return notifyAboutUnsuccessfulResult("/country", exception.getMessage());
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return notifyAboutUnsuccessfulResult("/country");
+        }
     }
 
     private List<Command> getAllCommands() {
