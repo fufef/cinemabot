@@ -1,8 +1,5 @@
 package kinopoiskAPI;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-
 public class Filter {
     private int[] countries;
     private int[] genres;
@@ -19,24 +16,6 @@ public class Filter {
         page = 1;
         resetRatings();
         resetYears();
-    }
-
-    public void addGenres(ArrayList genresId) {
-        HashSet newGenresSet = new HashSet(genresId);
-        for (int i = 0; i < genres.length; i++) {
-            newGenresSet.add(genres[i]);
-        }
-        int[] newGenres = newGenresSet.stream().mapToInt(i -> (int) i).toArray();
-        setGenres(newGenres);
-    }
-
-    public void addCountries(ArrayList countriesId) {
-        HashSet newCountriesSet = new HashSet(countriesId);
-        for (int i = 0; i < countries.length; i++) {
-            newCountriesSet.add(countries[i]);
-        }
-        int[] newCountries = newCountriesSet.stream().mapToInt(i -> (int) i).toArray();
-        setGenres(newCountries);
     }
 
     public int[] getCountries() {
