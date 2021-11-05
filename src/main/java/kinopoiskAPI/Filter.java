@@ -17,11 +17,9 @@ public class Filter {
     public Filter() {
         countries = new int[0];
         genres = new int[0];
-        ratingFrom = 0;
-        ratingTo = 10;
-        yearFrom = 0;
-        yearTo = Integer.MAX_VALUE;
         page = 1;
+        resetRatings();
+        resetYears();
     }
 
     public void addGenres(ArrayList genresId) {
@@ -88,6 +86,11 @@ public class Filter {
 
     public void setRatingFrom(int ratingFrom) {
         this.ratingFrom = ratingFrom;
+    }
+
+    public void resetRatings() {
+        ratingFrom = 0;
+        ratingTo = 10;
     }
 
     public int getYearFrom() {
