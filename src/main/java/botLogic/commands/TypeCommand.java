@@ -15,7 +15,7 @@ public class TypeCommand {
             case "film" -> filter.setType("FILM");
             case "serial" -> filter.setType("TV_SHOW");
             case "all" -> filter.setType("ALL");
-            default -> throw new IllegalArgumentException("Указан некорректный тип фильма");
+            default -> throw new CommandException("Указан некорректный тип фильма");
         }
         UsersData.saveSearchResultOfCurrentUser(filter);
     }

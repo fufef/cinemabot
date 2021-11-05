@@ -15,9 +15,13 @@ public class CommandListener {
                     Выводит краткую информацию о боте, список команд и их описание
                     Если указан аргумент [command], выводит справку по указанной команде""")
     public String help(Object[] arguments) {
-        if (arguments.length > 0)
-            return HelpCommand.getHelpForCommand(getAllCommands(), (String) (arguments)[0]);
-        return HelpCommand.getHelpForAllCommands(getAllCommands());
+        try {
+            if (arguments.length > 0)
+                return HelpCommand.getHelpForCommand(getAllCommands(), (String) (arguments)[0]);
+            return HelpCommand.getHelpForAllCommands(getAllCommands());
+        } catch (CommandException e) {
+            return notifyAboutUnsuccessfulResult("/help", e.getMessage());
+        }
     }
 
     @Command(
@@ -29,7 +33,10 @@ public class CommandListener {
     public String advise(Object[] arguments) {
         try {
             return AdviseCommand.advise();
+        } catch (CommandException e) {
+            return notifyAboutUnsuccessfulResult("/advise", e.getMessage());
         } catch (Exception e) {
+            e.printStackTrace();
             return notifyAboutUnsuccessfulResult("/advise");
         }
     }
@@ -56,6 +63,8 @@ public class CommandListener {
         try {
             TypeCommand.type((String[]) arguments);
             return notifyAboutSuccessfulResult("/type");
+        } catch (IllegalArgumentException e) {
+            return notifyAboutUnsuccessfulResult("/type", e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             return notifyAboutUnsuccessfulResult("/type");
@@ -91,6 +100,8 @@ public class CommandListener {
         try {
             YearCommand.year((String[]) arguments);
             return notifyAboutSuccessfulResult("/year");
+        } catch (CommandException e) {
+            return notifyAboutUnsuccessfulResult("/year", e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             return notifyAboutUnsuccessfulResult("/year");
@@ -120,5 +131,12 @@ public class CommandListener {
 
     private String notifyAboutUnsuccessfulResult(String commandName) {
         return String.format("Ошибка в процессе выполнения команды %s\nДля справки используйте /help", commandName);
+    }
+
+    private String notifyAboutUnsuccessfulResult(String commandName, String errorMessage) {
+        return String.format(
+                "Ошибка в процессе выполнения команды %s\n%s\nДля справки используйте /help",
+                errorMessage,
+                commandName);
     }
 }

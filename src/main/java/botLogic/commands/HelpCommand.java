@@ -9,7 +9,7 @@ public class HelpCommand {
                 commands,
                 command -> command.name().equals(commandName));
         if (descriptions.isEmpty())
-            return String.format("Неизвестная команда %s", commandName);
+            throw new CommandException(String.format("Неизвестная команда %s", commandName));
         return descriptions;
     }
 

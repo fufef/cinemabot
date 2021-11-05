@@ -1,5 +1,6 @@
 package botLogic.commands.adviseCommand;
 
+import botLogic.commands.CommandException;
 import botLogic.userData.UsersData;
 import com.github.cliftonlabs.json_simple.JsonObject;
 import kinopoiskAPI.Filter;
@@ -19,7 +20,7 @@ public class AdviseCommand {
     private static String getNextFilm(UserParameters userParameters) throws Exception {
         JsonObject filmInfo = userParameters.getCurrentFilm();
         if (filmInfo == null)
-            return "Фильмы не найдены";
+            throw new CommandException("Фильмы не найдены");
         int filmId = Parser.parseToInt(filmInfo.get("filmId"));
         String descriptionOfFilm = Formatter.getInformationAboutFilm(filmId);
         goToNextFilm(userParameters);

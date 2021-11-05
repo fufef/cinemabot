@@ -25,6 +25,7 @@ public class YearCommand {
         Filter filter = UsersData.getParametersOfCurrentUser().getFilter();
         filter.setYearFrom(tryParseYearToInt(yearFrom));
         filter.setYearTo(tryParseYearToInt(yearTo));
+        checkCorrectnessOfYears(filter);
         UsersData.saveSearchResultOfCurrentUser(filter);
     }
 
@@ -33,19 +34,25 @@ public class YearCommand {
         switch (year.charAt(0)) {
             case '>' -> filter.setYearFrom(tryParseYearToInt(year.substring(1)));
             case '<' -> filter.setYearTo(tryParseYearToInt(year.substring(1)));
-            default -> throw new IllegalArgumentException("Год указан некорректно");
+            default -> throw new CommandException("Год указан некорректно");
         }
+        checkCorrectnessOfYears(filter);
         UsersData.saveSearchResultOfCurrentUser(filter);
+    }
+
+    private static void checkCorrectnessOfYears(Filter filter) {
+        if (filter.getYearFrom() > filter.getYearTo())
+            throw new CommandException("Указанный минимальный год больше указанного максимального");
     }
 
     private static int tryParseYearToInt(String year) {
         try {
             int result = Integer.parseInt(year);
             if (result < 0)
-                throw new IllegalArgumentException("Год не может быть отрицательным");
+                throw new CommandException("Год не может быть отрицательным");
             return result;
         } catch (NumberFormatException exception) {
-            throw new IllegalArgumentException("Год должен быть указан числом");
+            throw new CommandException("Год должен быть указан числом");
         }
     }
 }
