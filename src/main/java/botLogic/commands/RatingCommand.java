@@ -5,13 +5,10 @@ import kinopoiskAPI.Filter;
 
 public class RatingCommand {
     public static void setRating(String[] arguments) throws Exception {
-        if (arguments.length == 0)
-            resetRatings();
-        else {
-            if (arguments.length == 1)
-                setRating(arguments[0]);
-            else
-                setRatings(arguments[0], arguments[1]);
+        switch (arguments.length) {
+            case 0 -> resetRatings();
+            case 1 -> setRating(arguments[0]);
+            default -> setRatings(arguments[0], arguments[1]);
         }
     }
 

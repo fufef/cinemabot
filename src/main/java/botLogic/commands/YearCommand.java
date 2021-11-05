@@ -5,13 +5,10 @@ import kinopoiskAPI.Filter;
 
 public class YearCommand {
     public static void setYear(String[] arguments) throws Exception {
-        if (arguments.length == 0)
-            resetYears();
-        else {
-            if (arguments.length == 1)
-                setYear(arguments[0]);
-            else
-                setYears(arguments[0], arguments[1]);
+        switch (arguments.length) {
+            case 0 -> resetYears();
+            case 1 -> setYear(arguments[0]);
+            default -> setYears(arguments[0], arguments[1]);
         }
     }
 
