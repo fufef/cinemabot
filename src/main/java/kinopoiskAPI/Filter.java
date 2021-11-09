@@ -20,7 +20,7 @@ public class Filter {
 
     public int[] getCountries() {
         return countries;
-    }
+    } // todo rename
 
     public void setCountries(int[] countries) {
         this.countries = countries;

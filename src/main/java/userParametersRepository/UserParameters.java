@@ -5,7 +5,7 @@ import com.github.cliftonlabs.json_simple.JsonObject;
 import kinopoiskAPI.API;
 import kinopoiskAPI.Filter;
 import parser.Parser;
-
+// todo хранить не JsonObject а конкретные модельки
 public class UserParameters {
     private JsonObject searchResult;
     private Filter filter;

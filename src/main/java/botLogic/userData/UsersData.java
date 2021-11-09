@@ -4,11 +4,12 @@ import com.github.cliftonlabs.json_simple.JsonObject;
 import kinopoiskAPI.Filter;
 import userParametersRepository.Repository;
 import userParametersRepository.UserParameters;
+import userParametersRepository.UserParametersRepository;
 
 public class UsersData {
-    private static Repository userParametersRepository;
+    private static UserParametersRepository userParametersRepository;
 
-    public static void initializeRepository(Repository userParametersRepository) {
+    public static void initializeRepository(UserParametersRepository userParametersRepository) {
         UsersData.userParametersRepository = userParametersRepository;
     }
 
