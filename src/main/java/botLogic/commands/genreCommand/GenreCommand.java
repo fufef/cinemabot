@@ -25,7 +25,7 @@ public class GenreCommand {
 
     private static void setGenres(String[] genres) throws Exception {
         Filter filter = UsersData.getParametersOfCurrentUser().getFilter();
-        filter.setGenres(getGenresId(genres));
+        filter.setGenresId(getGenresId(genres));
         UsersData.saveSearchResultOfCurrentUser(filter);
     }
 
@@ -43,7 +43,7 @@ public class GenreCommand {
 
     private static void resetGenres() throws Exception {
         Filter filter = UsersData.getParametersOfCurrentUser().getFilter();
-        filter.setGenres(new int[0]);
+        filter.setGenresId(new int[0]);
         UsersData.saveSearchResultOfCurrentUser(filter);
     }
 }

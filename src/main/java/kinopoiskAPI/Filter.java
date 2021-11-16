@@ -1,8 +1,8 @@
 package kinopoiskAPI;
 
 public class Filter {
-    private int[] countries;
-    private int[] genres;
+    private int[] countriesId;
+    private int[] genresId;
     private String type = "";
     private int ratingFrom;
     private int ratingTo;
@@ -11,27 +11,27 @@ public class Filter {
     private int page;
 
     public Filter() {
-        countries = new int[0];
-        genres = new int[0];
+        countriesId = new int[0];
+        genresId = new int[0];
         page = 1;
         resetRatings();
         resetYears();
     }
 
-    public int[] getCountries() {
-        return countries;
+    public int[] getCountriesId() {
+        return countriesId;
     }
 
-    public void setCountries(int[] countries) {
-        this.countries = countries;
+    public void setCountriesId(int[] countriesId) {
+        this.countriesId = countriesId;
     }
 
-    public int[] getGenres() {
-        return genres;
+    public int[] getGenresId() {
+        return genresId;
     }
 
-    public void setGenres(int[] genres) {
-        this.genres = genres;
+    public void setGenresId(int[] genresId) {
+        this.genresId = genresId;
     }
 
     public String getOrder() {

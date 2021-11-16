@@ -37,9 +37,9 @@ public class API {
     public static JsonObject getInformationAboutFilmsByFilter(Filter filter) {
         StringBuilder filtersInRequest = new StringBuilder();
         for (var country :
-                filter.getCountries())
+                filter.getCountriesId())
             filtersInRequest.append(String.format("country=%d&", country));
-        for (var genre : filter.getGenres())
+        for (var genre : filter.getGenresId())
             filtersInRequest.append(String.format("genre=%d&", genre));
         filtersInRequest.append(String.format(
                 "order=%s&type=%s&ratingFrom=%d&ratingTo=%d&yearFrom=%d&yearTo=%d&page=%d",

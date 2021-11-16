@@ -25,7 +25,7 @@ public class CountryCommand {
 
     private static void setCountries(String[] countries) throws Exception {
         Filter filter = UsersData.getParametersOfCurrentUser().getFilter();
-        filter.setCountries(getCountriesId(countries));
+        filter.setCountriesId(getCountriesId(countries));
         UsersData.saveSearchResultOfCurrentUser(filter);
     }
 
@@ -43,7 +43,7 @@ public class CountryCommand {
 
     private static void resetCountries() throws Exception {
         Filter filter = UsersData.getParametersOfCurrentUser().getFilter();
-        filter.setCountries(new int[0]);
+        filter.setCountriesId(new int[0]);
         UsersData.saveSearchResultOfCurrentUser(filter);
     }
 }
