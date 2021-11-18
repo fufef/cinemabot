@@ -21,7 +21,7 @@ public class TokenizerTests {
     @Test
     public void getNextToken_NextLexemeIsMissing_Null() {
         inputModule.setNewLexemes(new ArrayList<>());
-        Assert.assertNull(tokenizer.getNextToken());
+        Assert.assertNull(tokenizer.getTokenByLexem());
     }
 
     @Test
@@ -31,7 +31,7 @@ public class TokenizerTests {
         lexemes.add(new Lexeme("", userID));
         inputModule.setNewLexemes(lexemes);
 
-        Token actualToken = tokenizer.getNextToken();
+        Token actualToken = tokenizer.getTokenByLexem();
 
         areExpectedTokenAndActualTokenEqual(null, actualToken);
     }

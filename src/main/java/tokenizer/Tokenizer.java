@@ -8,8 +8,12 @@ import java.util.stream.Stream;
 
 public record Tokenizer(InputModule inputModule) {
 
-    public Token getNextToken() {
+    public Token getTokenByLexem() {
         Lexeme lexeme = inputModule.getNextLexeme();
+        return getTokenByLexem(lexeme);
+    }
+
+    public Token getTokenByLexem(Lexeme lexeme) {
         if (lexeme == null)
             return null;
         String[] parsedLexeme = parseLexeme(lexeme.lexeme());

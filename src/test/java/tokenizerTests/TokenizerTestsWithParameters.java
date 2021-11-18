@@ -36,7 +36,7 @@ public class TokenizerTestsWithParameters {
         lexemes.add(currentLexeme);
         inputModule.setNewLexemes(lexemes);
 
-        Token actualToken = tokenizer.getNextToken();
+        Token actualToken = tokenizer.getTokenByLexem();
 
         TokenizerTests.areExpectedTokenAndActualTokenEqual(currentExpectedToken, actualToken);
     }
