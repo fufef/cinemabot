@@ -8,8 +8,8 @@ import userParametersRepository.Repository;
 import userParametersRepository.jsonUserParametersRepository.JSONUserParametersRepository;
 
 public class Main {
-    private static String Token = "";
-    public static TelegramBot bot = new TelegramBot(Token);
+    public static String TOKEN = "";
+    public static TelegramBot bot = new TelegramBot(TOKEN);
 
     public static void main(String[] args) {
         var text = "";
@@ -22,9 +22,12 @@ public class Main {
         var consoleBot = new ConsoleBot();
 
         bot.setUpdatesListener(updates -> {
-            var message = updates.get(0).message().text();
-            var chatId = updates.get(0).message().chat().id();
-            bot.execute(new SendMessage(chatId, consoleBot.getAnswerOnMessage(message, chatId.toString())));
+            if(updates.get(0).message() != null)
+            {
+                var message = updates.get(0).message().text();
+                var chatId = updates.get(0).message().chat().id();
+                bot.execute(new SendMessage(chatId, consoleBot.getAnswerOnMessage(message, chatId.toString())));
+            }
             return UpdatesListener.CONFIRMED_UPDATES_ALL;
         });
     }
