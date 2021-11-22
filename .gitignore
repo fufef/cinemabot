@@ -44,3 +44,5 @@ src/kinopoiskAPI/HTTPRequest/TokenReader/token
 
 # JSONdatabase
 src/main/java/userParametersRepository/jsonUserParametersRepository/database.json
+src/main/java/telegramBot/token.json
+
