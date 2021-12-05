@@ -27,6 +27,23 @@ public class CommandListener {
     }
 
     @Command(
+            name = "/start",
+            arguments = "",
+            maxArgs = 0,
+            description = """
+                    Начало работы бота""")
+    public String start(Object[] arguments) {
+        try {
+            return StartCommand.start();
+        } catch (CommandException exception) {
+            return notifyAboutUnsuccessfulResult("/start", exception.getMessage());
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return notifyAboutUnsuccessfulResult("/start");
+        }
+    }
+
+    @Command(
             name = "/advise",
             arguments = "",
             maxArgs = 0,
