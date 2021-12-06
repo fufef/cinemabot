@@ -5,11 +5,13 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.request.SendMessage;
 
+import java.util.Date;
+
 public class telegramBot {
     public telegramBot(String token)
     {
         var bot = new TelegramBot(token);
-        var consoleBot = new ConsoleBot();
+        var consoleBot = new ConsoleBot(bot);
 
         bot.setUpdatesListener(updates -> {
             for(var update : updates)
