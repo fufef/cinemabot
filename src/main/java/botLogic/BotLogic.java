@@ -20,24 +20,12 @@ public class BotLogic {
     public Date checkPeriod = new Date(2000);
     private final Map<String, Method> commands;
     private final CommandListener commandListener;
-    private final TelegramBot bot;
 
-    public BotLogic(TelegramBot bot) {
-        this.bot = bot;
+    public BotLogic() {
         lastCheckTime = new Date();
         commandListener = new CommandListener();
         commands = new HashMap<>();
         registerCommands();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    checkForUpdates();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
     }
 
     public String handle(Token token) {
@@ -56,22 +44,6 @@ public class BotLogic {
                 command.maxArgs());
     }
 
-    private void checkForUpdates() throws Exception {
-        while (true)
-        {
-            if(new Date().getTime() - lastCheckTime.getTime() >= checkPeriod.getTime())
-            {
-                for(var user : lastUserMessages.keySet())
-                {
-                    if(new Date().getTime() - lastUserMessages.get(user).getTime() >= checkPeriod.getTime())
-                    {
-                        bot.execute(new SendMessage(user, AdviseCommand.advise()));
-                    }
-                }
-                lastCheckTime = new Date();
-            }
-        }
-    }
 
     private String getResultOfCommandExecution(Token token, Method methodForCommand) {
         try {
