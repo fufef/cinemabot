@@ -31,7 +31,10 @@ public class YearCommand {
         switch (year.charAt(0)) {
             case '>' -> filter.setYearFrom(tryParseYearToInt(year.substring(1)));
             case '<' -> filter.setYearTo(tryParseYearToInt(year.substring(1)));
-            default -> throw new CommandException("Год указан некорректно");
+            default -> {
+                filter.setYearFrom(tryParseYearToInt(year.substring(1)));
+                filter.setYearTo(tryParseYearToInt(year.substring(1)));
+            }
         }
         checkCorrectnessOfYears(filter);
         UsersData.saveSearchResultOfCurrentUser(filter);

@@ -27,6 +27,23 @@ public class CommandListener {
     }
 
     @Command(
+            name = "/release",
+            arguments = "",
+            maxArgs = 0,
+            description = """
+                    Выводит один из последних цифровых релизов""")
+    public String release(Object[] arguments) {
+        try {
+            return NewsCommand.release();
+        } catch (CommandException exception) {
+            return notifyAboutUnsuccessfulResult("/release", exception.getMessage());
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return notifyAboutUnsuccessfulResult("/release");
+        }
+    }
+
+    @Command(
             name = "/start",
             arguments = "",
             maxArgs = 0,

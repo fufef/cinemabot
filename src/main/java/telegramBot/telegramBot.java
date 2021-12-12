@@ -1,6 +1,7 @@
 package telegramBot;
 
 import botLogic.BotLogic;
+import botLogic.commands.NewsCommand;
 import botLogic.commands.adviseCommand.AdviseCommand;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
@@ -46,13 +47,13 @@ public class telegramBot {
     private void checkForUpdates(BotLogic logic, TelegramBot bot) throws Exception {
         while (true)
         {
-            if(new Date().getTime() - logic.lastCheckTime.getTime() >= logic.checkPeriod.getTime())
+            if(new Date().getTime() - logic.lastCheckTime.getTime() >= 24 * 60 * 60 * 1000)
             {
                 for(var user : logic.lastUserMessages.keySet())
                 {
-                    if(new Date().getTime() - logic.lastUserMessages.get(user).getTime() >= logic.checkPeriod.getTime())
+                    if(new Date().getTime() - logic.lastUserMessages.get(user).getTime() >= 7 * 24 * 60 * 60 * 1000)
                     {
-                        bot.execute(new SendMessage(user, AdviseCommand.advise()));
+                        bot.execute(new SendMessage(user, NewsCommand.release()));
                     }
                 }
                 logic.lastCheckTime = new Date();

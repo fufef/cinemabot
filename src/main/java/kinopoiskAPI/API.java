@@ -6,6 +6,7 @@ import com.github.cliftonlabs.json_simple.Jsoner;
 import kinopoiskAPI.httpRequest.HTTPRequest;
 import parser.Parser;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -27,6 +28,14 @@ public class API {
         return makeMapByKey(
                 (JsonArray) getIdOfCountriesAndGenres().get("genres"),
                 "genre");
+    }
+
+    public static JsonObject getLatestReleases(){
+        Calendar c = Calendar.getInstance();
+        String url = String.format("%sv2.1/films/releases?year=%d&month=%s&page=1", domain, c.get(Calendar.YEAR),
+                c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH).toUpperCase());
+        System.out.println(url);
+        return getRequestResult(url);
     }
 
     public static JsonObject getInformationAboutFilmById(int filmId) {

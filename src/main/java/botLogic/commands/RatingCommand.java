@@ -31,7 +31,10 @@ public class RatingCommand {
         switch (rating.charAt(0)) {
             case '>' -> filter.setRatingFrom(tryParseRatingToInt(rating.substring(1)));
             case '<' -> filter.setRatingTo(tryParseRatingToInt(rating.substring(1)));
-            default -> throw new CommandException("Рейтинг указан некорректно");
+            default -> {
+                filter.setRatingFrom(tryParseRatingToInt(rating.substring(1)));
+                filter.setRatingTo(tryParseRatingToInt(rating.substring(1)));
+            }
         }
         checkCorrectnessOfRatings(filter);
         UsersData.saveSearchResultOfCurrentUser(filter);
