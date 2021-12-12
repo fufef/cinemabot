@@ -11,9 +11,11 @@ import java.math.BigDecimal;
 
 public class NewsCommand {
     public static String release() throws Exception {
-        UserParameters userParameters = UsersData.getParametersOfCurrentUser();
         JsonArray films = (JsonArray)API.getLatestReleases().get("releases");
-        int filmId = ((BigDecimal)((JsonObject)(films).get(0)).get("filmId")).intValue();
-        return Formatter.getInformationAboutFilm(filmId);
+        int numberOfFilm = (int)(Math.random() * films.size());
+        int filmId = ((BigDecimal)((JsonObject)(films).get(numberOfFilm)).get("filmId")).intValue();
+        StringBuilder message = new StringBuilder("Привет! Смотрю, ты давно не интересовался фильмами! Зацени то, что вышло в этом месяце: \n \n");
+        message.append(Formatter.getInformationAboutFilm(filmId));
+        return message.toString();
     }
 }
