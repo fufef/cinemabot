@@ -2,7 +2,6 @@ package telegramBot;
 
 import botLogic.BotLogic;
 import botLogic.commands.NewsCommand;
-import botLogic.commands.adviseCommand.AdviseCommand;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.request.SendMessage;
@@ -21,7 +20,7 @@ public class telegramBot {
 
         new Thread(() -> {
             try {
-                checkForUpdates(logic, bot);
+                checkForUpdates(logic, bot, 24 * 60 * 60 * 1000);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -30,7 +29,7 @@ public class telegramBot {
         bot.setUpdatesListener(updates -> {
             for(var update : updates)
             {
-                if(update.message() != null)
+                if(update.message() != null && update.message().text() != null)
                 {
                     var message = update.message().text();
                     var chatId = update.message().chat().id();
@@ -44,14 +43,14 @@ public class telegramBot {
         });
     }
 
-    private void checkForUpdates(BotLogic logic, TelegramBot bot) throws Exception {
+    private void checkForUpdates(BotLogic logic, TelegramBot bot, int periodInMilliseconds) throws Exception {
         while (true)
         {
-            if(new Date().getTime() - logic.lastCheckTime.getTime() >= 24 * 60 * 60 * 1000)
+            if(new Date().getTime() - logic.lastCheckTime.getTime() >= periodInMilliseconds) //24 * 60 * 60 * 1000
             {
                 for(var user : logic.lastUserMessages.keySet())
                 {
-                    if(new Date().getTime() - logic.lastUserMessages.get(user).getTime() >= 7 * 24 * 60 * 60 * 1000)
+                    if(new Date().getTime() - logic.lastUserMessages.get(user).getTime() >= periodInMilliseconds)
                     {
                         bot.execute(new SendMessage(user, NewsCommand.release()));
                     }

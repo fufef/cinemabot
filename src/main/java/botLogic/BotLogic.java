@@ -2,10 +2,7 @@ package botLogic;
 
 import botLogic.commands.Command;
 import botLogic.commands.CommandListener;
-import botLogic.commands.adviseCommand.AdviseCommand;
 import botLogic.userData.UserId;
-import com.pengrad.telegrambot.TelegramBot;
-import com.pengrad.telegrambot.request.SendMessage;
 import tokenizer.Token;
 
 import java.lang.reflect.InvocationTargetException;
@@ -15,9 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BotLogic {
-    public HashMap<String, Date> lastUserMessages = new HashMap<String, Date>();
+    public HashMap<String, Date> lastUserMessages = new HashMap<>();
     public Date lastCheckTime;
-    public Date checkPeriod = new Date(2000);
     private final Map<String, Method> commands;
     private final CommandListener commandListener;
 
